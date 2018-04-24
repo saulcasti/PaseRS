@@ -1,0 +1,117 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<!-- head.html -->
+<head>
+  <title>{% block titulo %} Pase {% endblock %}</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <script
+          src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"> </script>
+  <script
+          src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js">
+  </script>
+  <link rel="stylesheet"
+        href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="/css/custom.css" />
+  {% block scripts %} {% endblock %}
+</head>
+
+
+<body>
+
+
+<!-- nav.html -->
+<nav class="navbar navbar-inverse" style="background-color:#d1f4e3; border-color: #d1f4e3; color:BLACK;">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse"
+              data-target="#myNavbar">
+        <span class="icon-bar"></span> <span class="icon-bar"></span> <span
+              class="icon-bar"></span>
+      </button>
+      <a href="/"><img src="/img/pacaIMG.png" height="55"  alt="logo" /></a>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar" style="color:BLACK;">
+      <ul class="nav navbar-nav" >
+
+        <li ><a href="/post/create"
+                                                    >Crear Publicación</a></li>
+
+        <li ><a href="/user/list" >Listado de usuarios</a></li>
+
+        <li ><a href="/request/list" >Peticiones de amistad</a></li>
+
+        <li ><a href="/user/friendsList" >Amigos</a></li>
+
+        <li ><a href="/post/list" >Mis Posts</a></li>
+
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown"><a id="btnLanguage" href="#"
+                                class="dropdown-toggle" data-toggle="dropdown" role="button"
+                                aria-haspopup="true" aria-expanded="false"> <span
+                ></span> <span class="caret"></span>
+        </a>
+          <ul id="languageDropdownMenuButton" class="dropdown-menu">
+            <li><a id="btnEnglish" value="EN"> <img
+                    style="border: 0; float: left; margin-right: 15px" /> <span
+                    >Inglés</span>
+            </a></li>
+            <li><a id="btnSpanish" value="ES"> <img
+                    style="border: 0; float: left; margin-right: 15px" /> <span
+                    >Español</span>
+            </a></li>
+          </ul></li>
+        <li ><a href="/signup" > <span
+                class="glyphicon glyphicon-user" ></span > Registrate
+        </a></li>
+        <li ><a href="/login"
+        > <span
+                class="glyphicon glyphicon-log-in" ></span > Identifícate
+        </a></li>
+        <li ><a href="/logout" > <span
+                class="glyphicon glyphicon-log-out" ></span> Desconectar
+        </a></li>
+      </ul>
+    </div>
+  </div>
+
+</nav>
+
+
+
+<div class="container">
+  <script>
+      var mensaje = getUrlParameter('mensaje');
+      var tipoMensaje = getUrlParameter('tipoMensaje');
+      if ( mensaje != "") {
+          if (tipoMensaje == "") {
+              tipoMensaje = 'alert-info';
+          }
+          $(".container")
+              .append("<div class='alert " + tipoMensaje + "'>" + mensaje + "</div>");
+      }
+      function getUrlParameter(name) {
+          name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+          var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+          var results = regex.exec(location.search);
+          return results === null ? '' :
+              decodeURIComponent(results[1].replace(/\+/g, ' '));
+      };
+  </script>
+
+  {% block contenido_principal %}
+  <!-- Posible contenido por defecto -->
+  {% endblock %}
+
+</div>
+
+
+<footer class="footer">
+  <div class="container">
+    <span class="text-muted">Pase&copy;</span>
+  </div>
+</footer>
+
+</body>
+</html>
