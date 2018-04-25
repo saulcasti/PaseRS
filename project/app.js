@@ -33,12 +33,18 @@ app.use(express.static('public'));
 
 //Variables
 app.set('port', 8081);
-app.set('db', 'mongodb://admin:sdi@ds253959.mlab.com:53959/paseapp');
+//app.set('db', 'mongodb://admin:sdi@ds253959.mlab.com:53959/paseapp');
+app.set('db', 'mongodb://admin:sdi@ds155699.mlab.com:55699/pasedb');
 app.set('clave','abcdefg');
 app.set('crypto',crypto);
 
+//Rutas/controladores por lógica
+require("./routes/rusuarios.js")(app, swig, gestorBD);
+
 app.get('/', function (req, res) {
-    var respuesta = swig.renderFile('views/base.html', {});
+    var respuesta = swig.renderFile('views/base.html', {
+        "sesion": req.session.usuario
+    });
     res.send(respuesta);
 });
 
