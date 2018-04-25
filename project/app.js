@@ -40,6 +40,7 @@ app.set('crypto',crypto);
 
 //Rutas/controladores por lógica
 require("./routes/rusuarios.js")(app, swig, gestorBD);
+require("./routes/rpeticiones.js")(app, swig, gestorBD);
 
 app.get('/', function (req, res) {
     var respuesta = swig.renderFile('views/base.html', {

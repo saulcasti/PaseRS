@@ -23,7 +23,60 @@ module.exports = {
             }
         });
     },
-
+    obtenerUsuariosPg : function(criterio,pg,funcionCallback){
+        this.mongo.MongoClient.connect(this.app.get('db'), function(err, db) {
+            if (err) {
+                funcionCallback(null);
+            } else {
+                var collection = db.collection('usuarios');
+                collection.count(function(err, count){
+                    collection.find(criterio).skip( (pg-1)*5 ).limit( 5 )
+                        .toArray(function(err, canciones) {
+                            if (err) {
+                                funcionCallback(null);
+                            } else {
+                                funcionCallback(canciones, count);
+                            }
+                            db.close();
+                        });
+                });
+            }
+        });
+    },
+    mandarPeticion: function(peticion, funcionCallback) {
+        this.mongo.MongoClient.connect(this.app.get('db'), function(err, db) {
+            if (err) {
+                funcionCallback(null);
+            } else {
+                var collection = db.collection('peticiones');
+                collection.insert(peticion, function(err, result) {
+                    if (err) {
+                        funcionCallback(null);
+                    } else {
+                        funcionCallback(result.ops[0]._id);
+                    }
+                    db.close();
+                });
+            }
+        });
+    },
+    obtenerPeticionesMandadas: function(criterio,funcionCallback){
+        this.mongo.MongoClient.connect(this.app.get('db'), function (err, db) {
+            if (err) {
+                funcionCallback(null);
+            } else {
+                var collection = db.collection('peticiones');
+                collection.find(criterio).toArray(function (err, usuarios) {
+                    if (err) {
+                        funcionCallback(null);
+                    } else {
+                        funcionCallback(usuarios);
+                    }
+                    db.close();
+                });
+            }
+        });
+    },
     insertarUsuario : function(usuario, funcionCallback) {
         this.mongo.MongoClient.connect(this.app.get('db'), function (err, db) {
             if (err) {
@@ -40,26 +93,6 @@ module.exports = {
                 });
             }
         });
-    },
-
-
-    obtenerCanciones : function(criterio, funcionCallback) {
-        this.mongo.MongoClient.connect(this.app.get('db'), function (err, db) {
-            if (err) {
-                funcionCallback(null);
-            } else {
-                var collection = db.collection('canciones');
-                collection.find(criterio).toArray(function (err, canciones) {
-                    if (err) {
-                        funcionCallback(null);
-                    } else {
-                        funcionCallback(canciones);
-                    }
-                });
-            }
-            db.close();
-        });
     }
-
 };
 

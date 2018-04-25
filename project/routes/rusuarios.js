@@ -35,6 +35,40 @@ module.exports = function(app, swig, gestorBD) {
         });
     });
 
+    app.get("/user/list", function (req, res) {
+        var pg = (req.query.pg == null) ? 1 : parseInt(req.query.pg); //Es String!!
+        var criterio = (req.query.busqueda == null) ? {} : {$or : [ // Coincidencia en nombre o email
+            { "nombre" : {$regex : ".*"+req.query.busqueda+".*"}},
+            { "email" : {$regex : ".*"+req.query.busqueda+".*"} }]
+        };
+
+        gestorBD.obtenerUsuariosPg( criterio, pg, function (usuarios, total) {
+            if (usuarios==null){
+                res.send("Error al buscar los usuarios.")
+            } else {
+                var criterio2 = {
+                    "usuario" : req.session.usuario
+                }
+                gestorBD.obtenerPeticionesMandadas(criterio2, function (peticiones) {
+                    var pgUltima = total / 5;
+                    if (total % 4 > 0) { // Sobran decimales
+                        pgUltima = pgUltima + 1;
+                    }
+                    var respuesta = swig.renderFile('views/bListUsers.html', {
+                        "usuarios": usuarios,
+                        "peticiones" : peticiones,
+                        "petiSize" : peticiones.length,
+                        "encontrado" : false,
+                        pgActual: pg,
+                        pgUltima: pgUltima,
+                        "sesion": req.session.usuario
+                    });
+                    res.send(respuesta);
+                });
+            }
+        });
+    });
+
     app.get("/signup", function(req, res) {
         var respuesta = swig.renderFile('views/bregistro.html', {
             "sesion": req.session.usuario
@@ -64,13 +98,13 @@ module.exports = function(app, swig, gestorBD) {
                     "&tipoMensaje=alert-danger ");
             } else {
                 req.session.usuario = usuarios[0].email;
-                res.redirect("/login?mensaje=Sesion iniciada");
+                res.redirect("/user/list");
             }
         });
     });
 
     app.get('/logout', function (req, res) {
         req.session.usuario = null;
-        res.redirect("/login?mensaje=Sesion cerrada");
+        res.redirect("/login?mensaje=Sesión cerrada");
     });
 };
