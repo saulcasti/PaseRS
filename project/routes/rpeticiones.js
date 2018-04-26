@@ -40,9 +40,9 @@ module.exports = function(app, swig, gestorBD) {
                         }
                         gestorBD.crearAmistad(amistad, peticion, function(id){
                             if (id == null) {
-                                res.redirect("/friends/list?mensaje=Error al haceros Amigos");
+                                res.redirect("/user/friendsList?mensaje=Error al haceros Amigos");
                             } else {
-                                res.redirect("/friends/list?mensaje=Petición Aceptada");
+                                res.redirect("/user/friendsList?mensaje=Petición Aceptada");
                             }
                         });
                     }

@@ -69,6 +69,42 @@ module.exports = function(app, swig, gestorBD) {
         });
     });
 
+    app.get("/user/friendsList", function (req, res) {
+        var pg = (req.query.pg == null) ? 1 : parseInt(req.query.pg); //Es String!!
+        var userId = gestorBD.mongo.ObjectID(req.session.usuarioId);
+        var criterio = {$or : [ // Coincidencia en amistad 1 o 2
+                { "amigo1._id" : userId},
+                { "amigo2._id" : userId}]
+        };
+
+        gestorBD.obtenerAmistadesPg( criterio, pg, function (amistades, total) {
+            if (amistades==null){
+                res.send("Error al buscar las amistades.")
+            } else {
+                var pgUltima = total / 5;
+                if (total % 5 > 0) { // Sobran decimales
+                    pgUltima = pgUltima + 1;
+                }
+                var amigos = [];
+
+                for (i = 0; i<amistades.length; i++){
+                    if (amistades[i].amigo1._id.toString()== req.session.usuarioId){
+                        amigos.push(amistades[i].amigo2);
+                    } else if (amistades[i].amigo2._id.toString()==req.session.usuarioId) {
+                        amigos.push(amistades[i].amigo1);
+                    }
+                }
+                var respuesta = swig.renderFile('views/bListFriends.html', {
+                    "amigos" : amigos,
+                    pgActual: pg,
+                    pgUltima: pgUltima,
+                    "sesion": req.session.usuario
+                });
+                res.send(respuesta);
+            }
+        });
+    });
+
     app.get("/signup", function(req, res) {
         var respuesta = swig.renderFile('views/bregistro.html', {
             "sesion": req.session.usuario
