@@ -51,7 +51,7 @@ module.exports = function(app, swig, gestorBD) {
                 }
                 gestorBD.obtenerPeticionesMandadas(criterio2, function (peticiones) {
                     var pgUltima = total / 5;
-                    if (total % 4 > 0) { // Sobran decimales
+                    if (total % 5 > 0) { // Sobran decimales
                         pgUltima = pgUltima + 1;
                     }
                     var respuesta = swig.renderFile('views/bListUsers.html', {
@@ -98,6 +98,7 @@ module.exports = function(app, swig, gestorBD) {
                     "&tipoMensaje=alert-danger ");
             } else {
                 req.session.usuario = usuarios[0].email;
+                req.session.usuarioId = usuarios[0]._id;
                 res.redirect("/user/list");
             }
         });
