@@ -43,22 +43,19 @@ module.exports = {
             }
         });
     },
-    mandarPeticion: function (peticion, pg, funcionCallback) {
+    mandarPeticion: function (peticion, funcionCallback) {
         this.mongo.MongoClient.connect(this.app.get('db'), function (err, db) {
             if (err) {
                 funcionCallback(null);
             } else {
                 var collection = db.collection('peticiones');
-                collection.count(function (err, count) {
-                    collection.find(criterio).skip((pg - 1) * 5).limit(5)
-                        .toArray(function (err, peticiones) {
-                            if (err) {
-                                funcionCallback(null);
-                            } else {
-                                funcionCallback(peticiones, count);
-                            }
-                            db.close();
-                        });
+                collection.insert(peticion, function (err, result) {
+                    if (err) {
+                        funcionCallback(null);
+                    } else {
+                        funcionCallback(result.ops[0]._id);
+                    }
+                    db.close();
                 });
             }
         });
@@ -74,6 +71,31 @@ module.exports = {
                         funcionCallback(null);
                     } else {
                         funcionCallback(peticiones);
+                    }
+                    db.close();
+                });
+            }
+        });
+    },
+    crearAmistad : function(amistad, peticion,funcionCallback) {
+        this.mongo.MongoClient.connect(this.app.get('db'), function (err, db) {
+            if (err) {
+                funcionCallback(null);
+            } else {
+                var collection = db.collection('amistades');
+                collection.insert(amistad, function (err, result) {
+                    if (err) {
+                        funcionCallback(null);
+                    } else {
+                        var result = result.ops[0]._id;
+                        collection = db.collection("peticiones");
+                        collection.remove({"_id" : peticion[0]._id}, function (err, db) {
+                            if (err) {
+                                funcionCallback(null);
+                            } else {
+                                funcionCallback(result);
+                            }
+                        })
                     }
                     db.close();
                 });

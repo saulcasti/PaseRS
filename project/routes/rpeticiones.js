@@ -15,6 +15,42 @@ module.exports = function(app, swig, gestorBD) {
         });
     });
 
+    app.get('/peticion/aceptar/:id', function (req, res) {
+        var peticionId = gestorBD.mongo.ObjectID(req.params.id);
+        var criterio = {
+            _id : peticionId
+        }
+        gestorBD.obtenerPeticionesMandadas(criterio ,function(peticion){
+            if ( peticion == null || peticion.length == 0){
+                res.send("/user/list" +
+                    "?mensaje=Ha ocurrido un error");
+            } else {
+                var criterio = {$or : [
+                        {"email" : peticion[0].usuario},
+                        {"email" : req.session.usuario}
+                ]}
+                gestorBD.obtenerUsuarios(criterio, function (usuarios) {
+                    if ( usuarios == null || usuarios.length != 2){
+                        res.send("/user/list" +
+                            "?mensaje=Ha ocurrido un error");
+                    } else {
+                        var amistad = {
+                            amigo1: usuarios[0],
+                            amigo2: usuarios[1]
+                        }
+                        gestorBD.crearAmistad(amistad, peticion, function(id){
+                            if (id == null) {
+                                res.redirect("/friends/list?mensaje=Error al haceros Amigos");
+                            } else {
+                                res.redirect("/friends/list?mensaje=Petición Aceptada");
+                            }
+                        });
+                    }
+                });
+            }
+        });
+    });
+
     app.get("/request/list", function (req, res) {
         var pg = (req.query.pg == null) ? 1 : parseInt(req.query.pg); //Es String!!
         var criterio = {
