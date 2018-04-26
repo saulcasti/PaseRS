@@ -32,19 +32,19 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="base.html" pinned="false" current-in-tab="false">
+      <file leaf-file-name="base.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/views/base.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="357">
-              <caret line="56" column="63" lean-forward="true" selection-start-line="56" selection-start-column="63" selection-end-line="56" selection-end-column="63" />
+            <state relative-caret-position="153">
+              <caret line="45" column="52" selection-start-line="45" selection-start-column="52" selection-end-line="45" selection-end-column="52" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="bListUsers.html" pinned="false" current-in-tab="true">
+      <file leaf-file-name="bListUsers.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/views/bListUsers.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="111">
+            <state relative-caret-position="1207">
               <caret line="71" column="39" selection-start-line="71" selection-start-column="39" selection-end-line="71" selection-end-column="39" />
               <folding>
                 <element signature="n#style#0;n#td#4;n#tr#0;n#tbody#0;n#table#0;n#!!top" expanded="true" />
@@ -56,7 +56,7 @@
       <file leaf-file-name="rpeticiones.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/routes/rpeticiones.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="56">
+            <state relative-caret-position="34">
               <caret line="17" column="26" selection-start-line="17" selection-start-column="13" selection-end-line="17" selection-end-column="26" />
             </state>
           </provider>
@@ -103,12 +103,12 @@
         <option value="$PROJECT_DIR$/views/bregistro.html" />
         <option value="$PROJECT_DIR$/views/blogin.html" />
         <option value="$PROJECT_DIR$/app.js" />
-        <option value="$PROJECT_DIR$/views/base.html" />
         <option value="$PROJECT_DIR$/routes/rusuarios.js" />
         <option value="$PROJECT_DIR$/modules/gestorBD.js" />
         <option value="$PROJECT_DIR$/routes/rpeticiones.js" />
         <option value="$PROJECT_DIR$/views/bRequestList.html" />
         <option value="$PROJECT_DIR$/views/bListUsers.html" />
+        <option value="$PROJECT_DIR$/views/base.html" />
       </list>
     </option>
   </component>
@@ -232,23 +232,23 @@
       <workItem from="1524579448627" duration="2184000" />
       <workItem from="1524656266682" duration="5396000" />
       <workItem from="1524673597412" duration="14023000" />
-      <workItem from="1524744494954" duration="2896000" />
+      <workItem from="1524744494954" duration="3164000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="25709000" />
+    <option name="totallyTimeSpent" value="25977000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="953" y="0" width="974" height="1047" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="1" visible="true" weight="0.21816283" />
+      <window_info content_ui="combo" id="Project" order="1" visible="true" weight="0.21816283" />
       <window_info anchor="bottom" id="TODO" order="9" />
       <window_info anchor="bottom" id="Docker" order="10" show_stripe_button="false" />
       <window_info anchor="bottom" id="Event Log" order="0" sideWeight="0.50104386" side_tool="true" weight="0.32629356" />
       <window_info anchor="bottom" id="Version Control" order="1" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Run" order="5" sideWeight="0.49582464" visible="true" weight="0.32942432" />
+      <window_info active="true" anchor="bottom" id="Run" order="5" sideWeight="0.49582464" visible="true" weight="0.32942432" />
       <window_info id="Structure" order="2" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Terminal" order="2" />
       <window_info id="Favorites" order="0" side_tool="true" />
@@ -448,31 +448,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="332">
-          <caret line="52" column="4" selection-start-line="52" selection-start-column="4" selection-end-line="52" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/routes/rusuarios.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="508">
-          <caret line="61" column="24" lean-forward="true" selection-start-line="61" selection-start-column="24" selection-end-line="62" selection-end-column="43" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/modules/gestorBD.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="298">
           <caret line="52" column="65" lean-forward="true" selection-start-line="52" selection-start-column="65" selection-end-line="52" selection-end-column="65" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/routes/rpeticiones.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="56">
-          <caret line="17" column="26" selection-start-line="17" selection-start-column="13" selection-end-line="17" selection-end-column="26" />
         </state>
       </provider>
     </entry>
@@ -483,20 +462,41 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/views/base.html">
+    <entry file="file://$PROJECT_DIR$/routes/rusuarios.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="357">
-          <caret line="56" column="63" lean-forward="true" selection-start-line="56" selection-start-column="63" selection-end-line="56" selection-end-column="63" />
+        <state relative-caret-position="508">
+          <caret line="61" column="24" lean-forward="true" selection-start-line="61" selection-start-column="24" selection-end-line="62" selection-end-column="43" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/views/bListUsers.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="111">
+        <state relative-caret-position="1207">
           <caret line="71" column="39" selection-start-line="71" selection-start-column="39" selection-end-line="71" selection-end-column="39" />
           <folding>
             <element signature="n#style#0;n#td#4;n#tr#0;n#tbody#0;n#table#0;n#!!top" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/routes/rpeticiones.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="17" column="26" selection-start-line="17" selection-start-column="13" selection-end-line="17" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="332">
+          <caret line="52" column="4" selection-start-line="52" selection-start-column="4" selection-end-line="52" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/base.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="45" column="52" selection-start-line="45" selection-start-column="52" selection-end-line="45" selection-end-column="52" />
         </state>
       </provider>
     </entry>

@@ -34,36 +34,16 @@
         <div class="collapse navbar-collapse" id="myNavbar" style="color:BLACK;">
             <ul class="nav navbar-nav">
 
-                <li><a href="/post/create">Crear Publicación</a></li>
-
                 {% if sesion!=null %}
                 <li><a href="/user/list">Listado de usuarios</a></li>
                 {% endif %}
-
+                {% if sesion!=null %}
                 <li><a href="/request/list">Peticiones de amistad</a></li>
-
+                {% endif %}
                 <li><a href="/user/friendsList">Amigos</a></li>
-
-                <li><a href="/post/list">Mis Posts</a></li>
 
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li class="dropdown"><a id="btnLanguage" href="#"
-                                        class="dropdown-toggle" data-toggle="dropdown" role="button"
-                                        aria-haspopup="true" aria-expanded="false"> <span
-                ></span> <span class="caret"></span>
-                </a>
-                    <ul id="languageDropdownMenuButton" class="dropdown-menu">
-                        <li><a id="btnEnglish" value="EN"> <img
-                                style="border: 0; float: left; margin-right: 15px"/> <span
-                        >Inglés</span>
-                        </a></li>
-                        <li><a id="btnSpanish" value="ES"> <img
-                                style="border: 0; float: left; margin-right: 15px"/> <span
-                        >Español</span>
-                        </a></li>
-                    </ul>
-                </li>
                 {% if sesion==null %}
                 <li><a href="/signup"> <span
                         class="glyphicon glyphicon-user"></span> Registrate
