@@ -22,8 +22,11 @@ module.exports = function(app, gestorBD) {
              })
 		 } else {
 			 var token = app.get('jwt').sign(
-					 {usuario: criterio.email , tiempo: Date.now()/1000},
-					 "secreto");
+					 {
+                         usuario: criterio.email ,
+                         tiempo: Date.now()/1000
+                     },
+                 "secreto");
              res.status(200);
              res.json({
                  autenticado: true,
@@ -42,10 +45,11 @@ module.exports = function(app, gestorBD) {
      */
     app.get("/api/user/friendsList", function (req, res) {
 
-        var userId = gestorBD.mongo.ObjectID(res.usuario);
+        //var userMail = res.usuario;
+        var emailUser = res.usuario;
         var criterio = {$or : [ // Coincidencia en amistad 1 o 2
-                { "amigo1._id" : userId},
-                { "amigo2._id" : userId}]
+                { "amigo1.email" : emailUser},
+                { "amigo2.email" : emailUser}]
         };
 
         gestorBD.obtenerAmistades( criterio, function (amistades, total) {
@@ -56,9 +60,9 @@ module.exports = function(app, gestorBD) {
                 var amigos = [];
 
                 for (i = 0; i<amistades.length; i++){
-                    if (amistades[i].amigo1._id.toString()== req.session.usuarioId){
+                    if (amistades[i].amigo1.email== emailUser){
                         amigos.push(amistades[i].amigo2);
-                    } else if (amistades[i].amigo2._id.toString()==req.session.usuarioId) {
+                    } else if (amistades[i].email==emailUser) {
                         amigos.push(amistades[i].amigo1);
                     }
                 }
