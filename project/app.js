@@ -2,6 +2,8 @@
 var express = require('express');
 var app = express();
 
+var jwt = require('jsonwebtoken');
+app.set('jwt',jwt);
 
 var expressSession = require('express-session');
 
@@ -28,6 +30,44 @@ var gestorBD = require("./modules/gestorBD.js");
 gestorBD.init(app,mongo);
 
 
+
+// routerUsuarioToken
+var routerUsuarioToken = express.Router();
+routerUsuarioToken.use(function(req, res, next) {
+    // obtener el token, puede ser un parámetro GET , POST o HEADER
+    var token = req.body.token || req.query.token || req.headers['token'];
+    if (token != null) {
+        // verificar el token
+        jwt.verify(token, 'secreto', function(err, infoToken) {
+            if (err || (Date.now()/1000 - infoToken.tiempo) > 240 ){
+                res.status(403); // Forbidden
+                res.json({
+                    acceso : false,
+                    error: 'Token invalido o caducado'
+                });
+                // También podríamos comprobar que intoToken.usuario existe
+                return;
+
+            } else {
+                // dejamos correr la petición
+                res.usuario = infoToken.usuario;
+                next();
+            }
+        });
+
+    } else {
+        res.status(403); // Forbidden
+        res.json({
+            acceso : false,
+            mensaje: 'No hay Token'
+        });
+    }
+});
+// Aplicar routerUsuarioToken
+// ????????  de momento no hay ninguno ????????
+
+
+
 // routerUsuarioSession
 var routerUsuarioSession = express.Router();
 routerUsuarioSession.use(function(req, res, next) {
@@ -36,7 +76,6 @@ routerUsuarioSession.use(function(req, res, next) {
         // dejamos correr la petición
         next();
     } else {
-        console.log("va a : "+req.session.destino)
         res.redirect("/login");
     }
 });
@@ -62,6 +101,9 @@ app.set('crypto',crypto);
 //Rutas/controladores por lógica
 require("./routes/rusuarios.js")(app, swig, gestorBD);
 require("./routes/rpeticiones.js")(app, swig, gestorBD);
+require("./routes/rapiusuarios.js")(app, gestorBD);
+
+
 
 app.get('/', function (req, res) {
     var respuesta = swig.renderFile('views/base.html', {
