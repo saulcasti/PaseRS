@@ -64,7 +64,7 @@ routerUsuarioToken.use(function(req, res, next) {
     }
 });
 // Aplicar routerUsuarioToken
-// ????????  de momento no hay ninguno ????????
+app.use('/api/user/friendsList', routerUsuarioToken);
 
 
 

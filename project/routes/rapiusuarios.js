@@ -1,11 +1,17 @@
 module.exports = function(app, gestorBD) {
 
+
+    /**
+	 * Servicio Web - S.1. Identificarse con usuario - token
+     *
+     *  (( Ha sido necesario instalar el módulo jsonwebtoken ))
+     */
 	app.post("/api/login", function(req, res) {
 		 var seguro = app.get("crypto").createHmac('sha256', app.get('clave'))
-		 .update(req.body.password).digest('hex');
+		    .update(req.body.password).digest('hex');
 		 var criterio = {
-		 email : req.body.email,
-		 password : seguro
+             email : req.body.email,
+             password : seguro
 		 }
 
 		 gestorBD.obtenerUsuarios(criterio, function(usuarios) {
@@ -27,5 +33,40 @@ module.exports = function(app, gestorBD) {
 
 		 });
 	});
+
+
+    /**
+     * Servicio Web - S.2 Usuario identificado: listar todos los amigos
+     *
+     *  (( Ha sido necesario añadir un nuevo route, de nombre routerUsuarioToken, en la app.js ))
+     */
+    app.get("/api/user/friendsList", function (req, res) {
+
+        var userId = gestorBD.mongo.ObjectID(res.usuario);
+        var criterio = {$or : [ // Coincidencia en amistad 1 o 2
+                { "amigo1._id" : userId},
+                { "amigo2._id" : userId}]
+        };
+
+        gestorBD.obtenerAmistades( criterio, function (amistades, total) {
+            if (amistades==null){
+                res.status(500);
+                res.json({error: "Se ha producido un error"})
+            } else {
+                var amigos = [];
+
+                for (i = 0; i<amistades.length; i++){
+                    if (amistades[i].amigo1._id.toString()== req.session.usuarioId){
+                        amigos.push(amistades[i].amigo2);
+                    } else if (amistades[i].amigo2._id.toString()==req.session.usuarioId) {
+                        amigos.push(amistades[i].amigo1);
+                    }
+                }
+
+                res.status(200);
+                res.send(JSON.stringify(amigos));
+            }
+        });
+    });
 
 }
