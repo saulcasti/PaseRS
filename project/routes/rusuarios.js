@@ -1,7 +1,10 @@
 module.exports = function(app, swig, gestorBD) {
 
     app.post('/usuario', function(req, res) {
-        var passwords = {
+        var registerInfo = {
+            email: req.body.email,
+            name: req.body.name,
+            lastName: req.body.lastName,
             password1: req.body.password,
             password2: req.body.passwordConfirm
         }
@@ -9,28 +12,40 @@ module.exports = function(app, swig, gestorBD) {
             email : req.body.email
         }
         gestorBD.obtenerUsuarios(criterio, function(usuarios){
-            if (usuarios != null && usuarios.length > 0){
-                res.redirect("/signup?mensaje=Ya existe un usuario con ese email");
+            if (usuarios != null && usuarios.length > 0) {
+                res.redirect("/signup?mensaje=Ya existe un usuario con ese email" +
+                    "&tipoMensaje=alert-danger ");
+            } else if (registerInfo.name.length <= 1) {
+                res.redirect("/signup?mensaje=Nombre demasiado corto" +
+                    "&tipoMensaje=alert-danger ");
+            } else if (registerInfo.lastName.length < 2) {
+                res.redirect("/signup?mensaje=Apellido demasiado corto" +
+                    "&tipoMensaje=alert-danger ");
+            } else if (registerInfo.email.length < 5) {
+                res.redirect("/signup?mensaje=Email demasiado corto" +
+                    "&tipoMensaje=alert-danger ");
+            } else if (registerInfo.password1.length < 4) {
+                res.redirect("/signup?mensaje=Password demasiado corta" +
+                    "&tipoMensaje=alert-danger ");
+            } else if (registerInfo.password1 != registerInfo.password2) {
+                res.redirect("/signup?mensaje=Las passwords no coinciden" +
+                    "&tipoMensaje=alert-danger ");
             } else {
-                if (passwords.password1 != passwords.password2) {
-                    res.redirect("/signup?mensaje=Las passwords no coinciden");
-                } else {
-                    var seguro = app.get("crypto").createHmac('sha256', app.get('clave'))
-                        .update(req.body.password).digest('hex');
-                    var usuario = {
-                        email: req.body.email,
-                        nombre: req.body.name,
-                        apellido: req.body.lastName,
-                        password: seguro
-                    }
-                    gestorBD.insertarUsuario(usuario, function (id) {
-                        if (id == null) {
-                            res.redirect("/signup?mensaje=Error al registrar usuario");
-                        } else {
-                            res.redirect("/login?mensaje=Nuevo usuario registrado");
-                        }
-                    });
+                var seguro = app.get("crypto").createHmac('sha256', app.get('clave'))
+                    .update(req.body.password).digest('hex');
+                var usuario = {
+                    email: req.body.email,
+                    nombre: req.body.name,
+                    apellido: req.body.lastName,
+                    password: seguro
                 }
+                gestorBD.insertarUsuario(usuario, function (id) {
+                    if (id == null) {
+                        res.redirect("/signup?mensaje=Error al registrar usuario");
+                    } else {
+                        res.redirect("/login?mensaje=Nuevo usuario registrado");
+                    }
+                });
             }
         });
     });
