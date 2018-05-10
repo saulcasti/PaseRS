@@ -62,7 +62,7 @@ module.exports = function(app, gestorBD) {
                 for (i = 0; i<amistades.length; i++){
                     if (amistades[i].amigo1.email== emailUser){
                         amigos.push(amistades[i].amigo2);
-                    } else if (amistades[i].email==emailUser) {
+                    } else if (amistades[i].amigo2.email==emailUser) {
                         amigos.push(amistades[i].amigo1);
                     }
                 }
