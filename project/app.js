@@ -29,7 +29,25 @@ app.use(bodyParser.urlencoded({ extended: true }));
 var gestorBD = require("./modules/gestorBD.js");
 gestorBD.init(app,mongo);
 
+// routerUsuarioSession
+var routerUsuarioSession = express.Router();
+routerUsuarioSession.use(function(req, res, next) {
+    console.log("routerUsuarioSession");
+    if ( req.session.usuario ) {
+        // dejamos correr la petición
+        next();
+    } else {
+        console.log("va a : "+req.session.destino)
+        res.redirect("/login");
+    }
+});
 
+//Aplicar routerUsuarioSession
+app.use("/user/list",routerUsuarioSession);
+app.use("/user/friendsList",routerUsuarioSession);
+app.use("/peticion/mandar/:id",routerUsuarioSession);
+app.use("/request/list",routerUsuarioSession);
+app.use("/peticion/aceptar/:id",routerUsuarioSession);
 
 // routerUsuarioToken
 var routerUsuarioToken = express.Router();
@@ -85,8 +103,6 @@ app.use("/user/friendsList",routerUsuarioSession);
 app.use("/peticion/mandar/*",routerUsuarioSession);
 app.use("/peticion/aceptar/*",routerUsuarioSession);
 app.use("/request/list",routerUsuarioSession);
-
-
 
 //Nunca meter las vistas en public, causa problemas de seguridad
 app.use(express.static('public'));

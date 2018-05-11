@@ -3,7 +3,7 @@
 {% block titulo %} Peticiones Recibidas {% endblock %}
 
 {% block contenido_principal %}
-<h2>Peticiones de Amistad Recibidas</h2>
+<h2 id="peticiones">Peticiones de Amistad Recibidas</h2>
 <table class="table table-hover" id="tableUsers">
     <thead>
     <tr>
@@ -16,8 +16,8 @@
     </thead>
     {% for peticion in peticiones %}
     <td> {{peticion.usuario}}</td>
-    <td> {{nombre}}</td>
-    <td> {{ apellidos }}</td>
+    <td> {{peticion.nombre}}</td>
+    <td> {{ peticion.apellido }}</td>
     <td>Quiere ser tu amigo.</td>
     <td><a class="btn btn-primary pull-right"
            href="/peticion/aceptar/{{peticion._id.toString()}}">
