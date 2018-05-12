@@ -43,7 +43,7 @@ module.exports = function(app, gestorBD) {
      *
      *  (( Ha sido necesario añadir un nuevo route, de nombre routerUsuarioToken, en la app.js ))
      */
-    app.get("/api/user/friendsList", function (req, res) {
+    app.get("/api/friendsList", function (req, res) {
 
         //var userMail = res.usuario;
         var emailUser = res.usuario;
