@@ -1,0 +1,98 @@
+<div id="widget-friendsList" style="margin-top: 5%">
+	<h2 class="text-center">Tus amistades</h2>
+	<hr>
+	<input type="text" class="form-control"
+		placeholder="Filtrar por nombre" id="filtro-nombre" />
+
+	<table class="table table-hover" style="margin-top: 5%">
+		<thead>
+			<tr>
+				<th>Email</th>
+				<th ><a class="btn btn-link" style="color:#0174DF" onclick="ordenarPorNombre()">Nombre</a></th>
+				<th><a class="btn btn-link" style="color:#0174DF" onclick="ordenarApellido()">Apellido</a></th>
+			</tr>
+		</thead>
+		<tbody id="tablaCuerpo">
+
+		</tbody>
+	</table>
+	<hr>
+	<button  style="margin-top: 1%" class="btn btn-outline-info btn-lg btn-block" onclick="cargarAmigos()">Refrescar</button>
+
+</div>
+
+
+
+
+<script>
+	window.history.pushState("", "", "/cliente.html?w=listFriends");
+	var amigos;
+	function cargarAmigos() {
+		$.ajax({
+			url : URLbase + "/friendsList",
+			type : "GET",
+			data : {},
+			dataType : 'json',
+			headers : {
+				"token" : token
+			},
+			success : function(respuesta) {
+				amigos = respuesta;
+				actualizarTabla(amigos);
+			},
+			error : function(error) {
+				$("#contenedor-principal").load("widget-login.html");
+			}
+		});
+	}
+	function actualizarTabla(friendsTable) {
+		$("#tablaCuerpo").empty(); // Vaciar la tabla
+		for (i = 0; i < friendsTable.length; i++) {
+			$("#tablaCuerpo").append(
+					"<tr id="+friendsTable[i]._id+">"
+						+ "<td>"+ friendsTable[i].email + "</td>"
+						+ "<td>"+ "<a class='btn btn-link' style='color:#0174DF' onclick=detalles('" + friendsTable[i]._id
+                + "')>"+ friendsTable[i].nombre+"</a>"  + "</td>"
+						+ "<td>"+ friendsTable[i].apellido + "</td>");
+		}
+	}
+
+
+	cargarAmigos();
+
+
+	$('#filtro-nombre').on('input', function(e) {
+		var amigosFiltrados = [];
+		var nombreFiltro = $("#filtro-nombre").val();
+
+		for (i = 0; i < amigos.length; i++) {
+			if (amigos[i].nombre.indexOf(nombreFiltro) != -1) {
+				amigosFiltrados.push(amigos[i]);
+			}
+		}
+		actualizarTabla(amigosFiltrados);
+	});
+
+
+	function ordenarApellido() {
+        amigos.sort(function(a, b) {
+            if (a.apellido > b.apellido)
+                return 1;
+            if (a.apellido < b.apellido)
+                return -1;
+            return 0;
+        });
+        actualizarTabla(amigos);
+	}
+
+	function ordenarPorNombre() {
+		amigos.sort(function(a, b) {
+			if (a.nombre > b.nombre)
+				return 1;
+			if (a.nombre < b.nombre)
+				return -1;
+			return 0;
+		});
+		actualizarTabla(amigos);
+	}
+</script>
