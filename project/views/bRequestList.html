@@ -14,6 +14,7 @@
         <th class="col-md-1"></th>
     </tr>
     </thead>
+    <tbody>
     {% for peticion in peticiones %}
     <td> {{peticion.usuario}}</td>
     <td> {{peticion.nombre}}</td>
@@ -23,6 +24,7 @@
            href="/peticion/aceptar/{{peticion._id.toString()}}">
         Aceptar Solicitud de Amistad</a></td>
     {% endfor %}
+    </tbody>
 </table>
 <!-- Paginación mostrar la actual y 2 anteriores y dos siguientes -->
 <div class="row text-center">

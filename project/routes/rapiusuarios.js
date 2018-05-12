@@ -73,4 +73,44 @@ module.exports = function(app, gestorBD) {
         });
     });
 
+    app.post("/api/mensaje", function (req, res) {
+        var mensaje = {
+            emisor: res.usuario,
+            leido: false
+        }
+        if (req.body.destino != null)
+            mensaje.destino = req.body.destino;
+        if (req.body.text != null)
+            mensaje.text = req.body.text;
+
+        var criterio = {
+            $or: [
+                {
+                    $and: [{"amigo1.email": mensaje.destino},
+                        {"amigo2.email": mensaje.emisor}]
+                },
+                {
+                    $and: [{"amigo1.email": mensaje.emisor},
+                        {"amigo2.email": mensaje.destino}]
+                }]
+        };
+
+        gestorBD.obtenerAmistades( criterio, function (amistades, total) {
+            if (amistades==null){
+                res.status(500);
+                res.json({error: "No sois amigos"})
+            } else {
+                gestorBD.crearMensaje(mensaje, function(id){
+                    if (id==null) {
+                        res.status(500);
+                        res.json({error: "Se ha producido un error"})
+                    } else {
+                        res.status(201);
+                        res.send(JSON.stringify(mensaje));
+                    }
+                });
+            }
+        });
+    });
+
 }
