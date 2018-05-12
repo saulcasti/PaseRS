@@ -51,7 +51,7 @@
 			$("#tablaCuerpo").append(
 					"<tr id="+friendsTable[i]._id+">"
 						+ "<td>"+ friendsTable[i].email + "</td>"
-						+ "<td>"+ "<a class='btn btn-link' style='color:#0174DF' onclick=detalles('" + friendsTable[i]._id
+						+ "<td>"+ "<a class='btn btn-link' style='color:#0174DF' onclick=chat('" + friendsTable[i]._id
                 + "')>"+ friendsTable[i].nombre+"</a>"  + "</td>"
 						+ "<td>"+ friendsTable[i].apellido + "</td>");
 		}
@@ -95,4 +95,10 @@
 		});
 		actualizarTabla(amigos);
 	}
+
+    function chat(_id) {
+        idChatSeleccionada = _id;
+        $("#contenedor-principal").load("widget-chat.html");
+    }
+
 </script>
