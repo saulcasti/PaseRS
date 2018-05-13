@@ -8,30 +8,8 @@
 	<div class="panel-body"
 		 id="chatList">
 
-		<ul class="chat">
-			<!-- mensaje del amigo -->
-			<li class="list-group-item  list-group-item-primary col-9" style="list-style:none; float:left; margin-bottom: 5%;">
-				<div id="mensajesasistente">
-					<div class="row">
-						<strong class="col text-left" >Tu amigx</strong>
-						<small class="col text-right" > fecha y hora</small>
-					</div>
-					<div class="row" >
-						<p  class="col text-left">Mensaje del amigo</p>
-					</div>
-				</div></li>
-
-			<!-- mensaje  -->
-			<li class="list-group-item  list-group-item-warning col-9 " style="list-style:none; float:right; margin-bottom: 5%;">
-				<div id="mensajescliente">
-					<div class="row">
-						<small class="col text-left"> fecha y hora</small>
-						<strong class="col text-right" >Tú</strong>
-					</div>
-					<div class="row">
-						<p  class="col text-right">Mensaje del amigo</p>
-					</div>
-				</div></li>
+		<ul class="chat" id="chat">
+			<!-- Aquí irán los mensajes -->
 		</ul>
 	</div>
 
@@ -40,8 +18,7 @@
 			<div class="input-group">
 				<input id="btn-input" type="text" class="form-control input-sm"
 					   placeholder="Introduce tu mensaje..." name="contenido" /> <span class="input-group-btn">
-						<button class="btn btn-danger" id="btn-chat"
-								disabled="disabled">Enviar</button>
+						<button class="btn btn-danger" id="btn-chat">Enviar</button>
 					</span>
 			</div>
 		</div>
@@ -51,7 +28,6 @@
 
 	<script>
 
-        window.history.pushState("", "", "/cliente.html?w=chat");
         $.ajax({
             url : URLbase + "/mensaje/"+ idChatSeleccionada,
             type : "GET",
@@ -61,8 +37,9 @@
                 "token" : token
             },
             success : function(mensaje) {
-                console.log(mensaje);
-              	//Añadir HTML
+                //console.log(mensaje);
+                mostrarMensajes(mensaje);
+
             },
             error : function(error) {
                 $("#contenedor-principal").load("widget-login.html");
@@ -71,27 +48,54 @@
 
         window.onload= function(){
             var chatBox;
-            chatBox = document.querySelector('#chatList');
+            chatBox = $('#chatList');
             chatBox.scrollTop = chatBox.scrollHeight;
-            document.querySelector('#btn-input').focus()
+            $('#btn-input').focus()
         };
 
-        $('#btn-input').on('input', function(e) {
-            var text1 = document.getElementById("btn-input");
-            if (text1.value != "") {
-                document.getElementById("btn-chat").disabled = "";
-            } else {
-                document.getElementById("btn-chat").disabled = "disabled";
-            }
-        });
 
         function widgetFriendsList() {
             $("#contenedor-principal").load("widget-listFriends.html");
 		};
 
 
-        function mensajeRecibido(texto) {
+        function mensajeRecibido(autor, texto) {
+            var mensaje =
+       				"<li class='list-group-item  list-group-item-primary col-9' style='list-style:none; float:left; margin-bottom: 5%;'>"
+               			+ "<div id='mensajeAmigo'>"
+                				+ "<div class='row'>"
+                					+"<strong class='col text-left' >" + autor + "</strong>"
+									+"<small class='col text-right'>"+ "fecha y hora"+"</small></div>"
+            					+ "<div class='row'>"
+               					+" <p  class='col text-left'>"+texto+"</p></div></div></li>";
+			$("#chat").append(mensaje);
+        }
 
+        function mensajeMandado(autor, texto) {
+            var mensaje =
+                "<li class='list-group-item  list-group-item-warning col-9' style='list-style:none; float:right; margin-bottom: 5%;'>"
+                + "<div id='mensajePropio'>"
+                + "<div class='row'>"
+                +"<small class='col text-text-left'>"+ "fecha y hora"+"</small>"
+                +"<strong class='col text-right' >" + autor + "</strong></div>"
+
+                + "<div class='row'>"
+                +" <p  class='col text-right'>"+texto+"</p></div></div></li>";
+            $("#chat").append(mensaje);
+        }
+
+        function mostrarMensajes(mensaje) {
+            var izq = mensaje[0].emisor;
+            var dch = mensaje[0].destino;
+
+            for(var i=0; i< mensaje.length;i++){
+                if(mensaje[i].emisor == dch){
+                    mensajeRecibido(dch, mensaje[i].text)
+				}
+				else{
+                    mensajeMandado(izq,mensaje[i].text);
+				}
+			}
         }
 
 	</script>
