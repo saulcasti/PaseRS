@@ -18,7 +18,7 @@
 			<div class="input-group">
 				<input id="btn-input" type="text" class="form-control input-sm"
 					   placeholder="Introduce tu mensaje..." name="contenido" /> <span class="input-group-btn">
-						<button class="btn btn-danger" id="btn-chat">Enviar</button>
+						<button class="btn btn-danger" id="btn-chat" type="button" onclick="crearMensaje()">Enviar</button>
 					</span>
 			</div>
 		</div>
@@ -27,31 +27,31 @@
 	<button style="margin-top: 1%" class="btn btn-outline-success btn-lg btn-block" onclick="widgetFriendsList()" >Volver</button>
 
 	<script>
+        window.history.pushState("", "", "/cliente.html?w=chat");
 
-        $.ajax({
-            url : URLbase + "/mensaje/"+ idChatSeleccionada,
-            type : "GET",
-            data : {},
-            dataType : 'json',
-            headers : {
-                "token" : token
-            },
-            success : function(mensaje) {
-                //console.log(mensaje);
-                mostrarMensajes(mensaje);
+        //Se recarga cada 1seg
+        setInterval(function(){
+            $.ajax({
+                url : URLbase + "/mensaje/"+ idChatSeleccionada,
+                type : "GET",
+                data : {},
+                dataType : 'json',
+                headers : {
+                    "token" : token
+                },
+                success : function(mensaje) {
+                    //mensajes = mensaje
+                    //console.log(mensaje);
+                    mostrarMensajes(mensaje);
 
-            },
-            error : function(error) {
-                $("#contenedor-principal").load("widget-login.html");
-            }
-        });
+                },
+                error : function(error) {
+                    $("#contenedor-principal").load("widget-login.html");
+                }
+            });
+		}, 1000);
 
-        window.onload= function(){
-            var chatBox;
-            chatBox = $('#chatList');
-            chatBox.scrollTop = chatBox.scrollHeight;
-            $('#btn-input').focus()
-        };
+
 
 
         function widgetFriendsList() {
@@ -65,7 +65,7 @@
                			+ "<div id='mensajeAmigo'>"
                 				+ "<div class='row'>"
                 					+"<strong class='col text-left' >" + autor + "</strong>"
-									+"<small class='col text-right'>"+ "fecha y hora"+"</small></div>"
+									+"<small class='col text-right'>"+ "leído/noleído"+"</small></div>"
             					+ "<div class='row'>"
                					+" <p  class='col text-left'>"+texto+"</p></div></div></li>";
 			$("#chat").append(mensaje);
@@ -76,7 +76,7 @@
                 "<li class='list-group-item  list-group-item-warning col-9' style='list-style:none; float:right; margin-bottom: 5%;'>"
                 + "<div id='mensajePropio'>"
                 + "<div class='row'>"
-                +"<small class='col text-text-left'>"+ "fecha y hora"+"</small>"
+                +"<small class='col text-text-left'>"+ "leído/noleído"+"</small>"
                 +"<strong class='col text-right' >" + autor + "</strong></div>"
 
                 + "<div class='row'>"
@@ -85,16 +85,63 @@
         }
 
         function mostrarMensajes(mensaje) {
-            var izq = mensaje[0].emisor;
-            var dch = mensaje[0].destino;
+            $("#chat").empty(); // Vaciar la tabla
+            var izq = emailSeleccionado;
 
-            for(var i=0; i< mensaje.length;i++){
-                if(mensaje[i].emisor == dch){
-                    mensajeRecibido(dch, mensaje[i].text)
-				}
-				else{
-                    mensajeMandado(izq,mensaje[i].text);
-				}
+            for (var i = 0; i < mensaje.length; i++) {
+                if (mensaje[i].emisor == izq) {
+                    mensajeRecibido(izq, mensaje[i].text)
+                }
+                else {
+                    mensajeMandado(mensaje[i].emisor, mensaje[i].text);
+                }
+            }
+        }
+
+
+        // Método que se acciona al pulsar el botón enviar
+        function crearMensaje() {
+			var texto = $("#btn-input").val();
+            $("#btn-input").val('');
+			if(texto.length > 0){
+                $.ajax({
+                    url : URLbase + "/mensaje",
+                    type : "POST",
+                    data : {
+                        "destino":emailSeleccionado,
+						"text": texto
+					},
+                    dataType : 'json',
+                    headers : {
+                        "token" : token
+                    },
+                    success : function(mensaje) {
+
+						//Recargamos los mensajes
+                        $.ajax({
+                            url : URLbase + "/mensaje/"+ idChatSeleccionada,
+                            type : "GET",
+                            data : {},
+                            dataType : 'json',
+                            headers : {
+                                "token" : token
+                            },
+                            success : function(mensaje) {
+                                //mensajes = mensaje
+                                //console.log(mensaje);
+                                mostrarMensajes(mensaje);
+
+                            },
+                            error : function(error) {
+                                $("#contenedor-principal").load("widget-login.html");
+                            }
+                        });
+
+                    },
+                    error : function(error) {
+                        $("#contenedor-principal").load("widget-login.html");
+                    }
+                });
 			}
         }
 

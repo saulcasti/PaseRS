@@ -116,10 +116,7 @@ module.exports = function(app, gestorBD) {
     /**
      * Lista los mensajes entre el emisor y el receptor que se pasan en el path
      */
-    //app.get("/api/mensaje/:idEmisor/:idReceptor", function (req, res){
     app.get("/api/mensaje/:idReceptor", function (req, res){
-       // var idEmisor = gestorBD.mongo.ObjectID(req.params.idEmisor);
-
 
         gestorBD.obtenerUsuarios({email : res.usuario }, function(usuarios) {
             if (usuarios == null || usuarios.length == 0) {
