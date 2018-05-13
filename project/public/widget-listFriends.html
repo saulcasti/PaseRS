@@ -8,8 +8,8 @@
 		<thead>
 			<tr>
 				<th>Email</th>
-				<th ><a class="btn btn-link" style="color:#0174DF" onclick="ordenarPorNombre()">Nombre</a></th>
-				<th><a class="btn btn-link" style="color:#0174DF" onclick="ordenarApellido()">Apellido</a></th>
+				<th ><a style="color:#0174DF; cursor: pointer;" onclick="ordenarPorNombre()">Nombre</a></th>
+				<th><a  style="color:#0174DF; cursor: pointer;" onclick="ordenarApellido()">Apellido</a></th>
 				<th>Sin leer</th>
 			</tr>
 		</thead>
@@ -40,6 +40,7 @@
 			success : function(respuesta) {
 				amigos = respuesta;
 				actualizarTabla(amigos);
+
 			},
 			error : function(error) {
 				$("#contenedor-principal").load("widget-login.html");
@@ -52,11 +53,12 @@
                 $("#tablaCuerpo").append(
                     "<tr id=" + friendsTable[i]._id + ">"
                     + "<td>" + friendsTable[i].email + "</td>"
-                    + "<td>" + "<a class='btn btn-link' style='color:#0174DF;' onclick=chat('" + friendsTable[i]._id + "'" + "," + "'" + friendsTable[i].email + "')>"
+                    + "<td>" + "<a style='color:#0174DF; cursor: pointer;' onclick=chat('" + friendsTable[i]._id + "'" + "," + "'" + friendsTable[i].email + "')>"
                     + friendsTable[i].nombre + "</a>" + "</td>"
-                    + "<td>" + friendsTable[i].apellido + "</td>");
-                   // + "<td class:'text-center'>" + numero + "</td>");
+                    + "<td>" + friendsTable[i].apellido + "</td>"
+                    + "<td class:'text-center' id='numero" + friendsTable[i]._id +"' >" + 0 + "</td>");
 		}
+        cargarNumeros();
 	}
 
 
@@ -105,5 +107,35 @@
         $("#contenedor-principal").load("widget-chat.html");
     }
 
+
+    function cargarNumeros(){
+        for (i = 0; i < amigos.length; i++) {
+            $.ajax({
+                url : URLbase + "/mensaje/"+ amigos[i]._id,
+                type : "GET",
+                data : {},
+                dataType : 'json',
+                headers : {
+                    "token" : token
+                },
+                success : function(mensaje) {
+                        var numero = 0;
+                        for (var i = 0; i < mensaje.length; i++) {
+                            if (mensaje[i].leido == false) numero++;
+                        }
+                        $("#numero" + amigos[i]._id).text(numero);
+
+                },
+                error : function(error) {
+                    $("#contenedor-principal").load("widget-login.html");
+                }
+            });
+        }
+    }
+
+    setInterval(function(){
+        cargarNumeros();
+
+    }, 10000);
 
 </script>
