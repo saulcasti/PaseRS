@@ -113,4 +113,42 @@ module.exports = function(app, gestorBD) {
         });
     });
 
+    app.get("/api/mensaje/:idEmisor/:idReceptor", function (req, res){
+        var idEmisor = gestorBD.mongo.ObjectID(req.params.idEmisor);
+        var idReceptor = gestorBD.mongo.ObjectID(req.params.idReceptor);
+
+        var criterio = {$or : [ // Coincidencia en amistad 1 o 2
+                { "_id" : idEmisor},
+                { "_id" : idReceptor}]
+        };
+
+        gestorBD.obtenerUsuarios(criterio, function(usuarios){
+            if (usuarios==null || usuarios.length==0){
+                res.status(500);
+                res.json({error: "No se han encontrado los usuarios"});
+            } else {
+                criterio = {
+                    $or: [
+                        {
+                            $and: [{"emisor":usuarios[0].email},
+                                {"destino": usuarios[1].email}]
+                        },
+                        {
+                            $and: [{"emisor":usuarios[1].email},
+                                {"destino": usuarios[0].email}]
+                        }]
+                };
+                gestorBD.obtenerMensajes(criterio, function (mensajes) {
+                   if (mensajes==null){
+                       res.status(500);
+                       res.json({error: "No se han encontrado mensajes"});
+                   } else {
+                       res.status(200);
+                       res.send(JSON.stringify(mensajes));
+                   }
+                });
+            }
+        });
+    });
+
 }
