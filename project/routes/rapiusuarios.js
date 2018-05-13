@@ -15,24 +15,24 @@ module.exports = function(app, gestorBD) {
 		 }
 
 		 gestorBD.obtenerUsuarios(criterio, function(usuarios) {
-		 if (usuarios == null || usuarios.length == 0) {
-             res.status(401); // Unauthorized
-             res.json({
-             autenticado : false
-             })
-		 } else {
-			 var token = app.get('jwt').sign(
-					 {
-                         usuario: criterio.email ,
-                         tiempo: Date.now()/1000
-                     },
-                 "secreto");
-             res.status(200);
-             res.json({
-                 autenticado: true,
-                 token : token
-             });
-		 }
+             if (usuarios == null || usuarios.length == 0) {
+                 res.status(401); // Unauthorized
+                 res.json({
+                 autenticado : false
+                 })
+             } else {
+                 var token = app.get('jwt').sign(
+                         {
+                             usuario: criterio.email ,
+                             tiempo: Date.now()/1000
+                         },
+                     "secreto");
+                 res.status(200);
+                 res.json({
+                     autenticado: true,
+                     token : token
+                 });
+             }
 
 		 });
 	});
@@ -113,42 +113,62 @@ module.exports = function(app, gestorBD) {
         });
     });
 
-    app.get("/api/mensaje/:idEmisor/:idReceptor", function (req, res){
-        var idEmisor = gestorBD.mongo.ObjectID(req.params.idEmisor);
-        var idReceptor = gestorBD.mongo.ObjectID(req.params.idReceptor);
+    /**
+     * Lista los mensajes entre el emisor y el receptor que se pasan en el path
+     */
+    //app.get("/api/mensaje/:idEmisor/:idReceptor", function (req, res){
+    app.get("/api/mensaje/:idReceptor", function (req, res){
+       // var idEmisor = gestorBD.mongo.ObjectID(req.params.idEmisor);
 
-        var criterio = {$or : [ // Coincidencia en amistad 1 o 2
-                { "_id" : idEmisor},
-                { "_id" : idReceptor}]
-        };
 
-        gestorBD.obtenerUsuarios(criterio, function(usuarios){
-            if (usuarios==null || usuarios.length==0){
+        gestorBD.obtenerUsuarios({email : res.usuario }, function(usuarios) {
+            if (usuarios == null || usuarios.length == 0) {
                 res.status(500);
-                res.json({error: "No se han encontrado los usuarios"});
+                res.json({error: "No se ha encontrado el usuario"});
             } else {
-                criterio = {
-                    $or: [
-                        {
-                            $and: [{"emisor":usuarios[0].email},
-                                {"destino": usuarios[1].email}]
-                        },
-                        {
-                            $and: [{"emisor":usuarios[1].email},
-                                {"destino": usuarios[0].email}]
-                        }]
+                var idEmisor = usuarios[0]._id;
+                var idReceptor = gestorBD.mongo.ObjectID(req.params.idReceptor);
+
+                var criterio = {$or : [ // Coincidencia en amistad 1 o 2
+                        { "_id" : idEmisor},
+                        { "_id" : idReceptor}]
                 };
-                gestorBD.obtenerMensajes(criterio, function (mensajes) {
-                   if (mensajes==null){
-                       res.status(500);
-                       res.json({error: "No se han encontrado mensajes"});
-                   } else {
-                       res.status(200);
-                       res.send(JSON.stringify(mensajes));
-                   }
+
+                gestorBD.obtenerUsuarios(criterio, function(usuarios){
+                    if (usuarios==null || usuarios.length==0){
+                        res.status(500);
+                        res.json({error: "No se han encontrado los usuarios"});
+                    } else {
+                        criterio = {
+                            $or: [
+                                {
+                                    $and: [{"emisor":usuarios[0].email},
+                                        {"destino": usuarios[1].email}]
+                                },
+                                {
+                                    $and: [{"emisor":usuarios[1].email},
+                                        {"destino": usuarios[0].email}]
+                                }]
+                        };
+                        gestorBD.obtenerMensajes(criterio, function (mensajes) {
+                            if (mensajes==null){
+                                res.status(500);
+                                res.json({error: "No se han encontrado mensajes"});
+                            } else {
+                                res.status(200);
+                                res.send(JSON.stringify(mensajes));
+                            }
+                        });
+                    }
                 });
             }
+
         });
+
+
+
+
+
     });
 
     app.put("/api/mensaje/:id", function (req, res){

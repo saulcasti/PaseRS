@@ -1,0 +1,98 @@
+<div id="widget-chat" style="margin-top: 5%"
+		class="chat-panel panel panel-default">
+	<div class="panel-heading">
+		<h2 class="text-center">Chat</h2>
+		<hr>
+
+	</div>
+	<div class="panel-body"
+		 id="chatList">
+
+		<ul class="chat">
+			<!-- mensaje del amigo -->
+			<li class="list-group-item  list-group-item-primary col-9" style="list-style:none; float:left; margin-bottom: 5%;">
+				<div id="mensajesasistente">
+					<div class="row">
+						<strong class="col text-left" >Tu amigx</strong>
+						<small class="col text-right" > fecha y hora</small>
+					</div>
+					<div class="row" >
+						<p  class="col text-left">Mensaje del amigo</p>
+					</div>
+				</div></li>
+
+			<!-- mensaje  -->
+			<li class="list-group-item  list-group-item-warning col-9 " style="list-style:none; float:right; margin-bottom: 5%;">
+				<div id="mensajescliente">
+					<div class="row">
+						<small class="col text-left"> fecha y hora</small>
+						<strong class="col text-right" >Tú</strong>
+					</div>
+					<div class="row">
+						<p  class="col text-right">Mensaje del amigo</p>
+					</div>
+				</div></li>
+		</ul>
+	</div>
+
+	<form class="form-horizontal"  enctype="multipart/form-data">
+		<div class="panel-footer">
+			<div class="input-group">
+				<input id="btn-input" type="text" class="form-control input-sm"
+					   placeholder="Introduce tu mensaje..." name="contenido" /> <span class="input-group-btn">
+						<button class="btn btn-danger" id="btn-chat"
+								disabled="disabled">Enviar</button>
+					</span>
+			</div>
+		</div>
+	</form>
+	<hr>
+	<button style="margin-top: 1%" class="btn btn-outline-success btn-lg btn-block" onclick="widgetFriendsList()" >Volver</button>
+
+	<script>
+
+        window.history.pushState("", "", "/cliente.html?w=chat");
+        $.ajax({
+            url : URLbase + "/mensaje/"+ idChatSeleccionada,
+            type : "GET",
+            data : {},
+            dataType : 'json',
+            headers : {
+                "token" : token
+            },
+            success : function(mensaje) {
+                console.log(mensaje);
+              	//Añadir HTML
+            },
+            error : function(error) {
+                $("#contenedor-principal").load("widget-login.html");
+            }
+        });
+
+        window.onload= function(){
+            var chatBox;
+            chatBox = document.querySelector('#chatList');
+            chatBox.scrollTop = chatBox.scrollHeight;
+            document.querySelector('#btn-input').focus()
+        };
+
+        $('#btn-input').on('input', function(e) {
+            var text1 = document.getElementById("btn-input");
+            if (text1.value != "") {
+                document.getElementById("btn-chat").disabled = "";
+            } else {
+                document.getElementById("btn-chat").disabled = "disabled";
+            }
+        });
+
+        function widgetFriendsList() {
+            $("#contenedor-principal").load("widget-listFriends.html");
+		};
+
+
+        function mensajeRecibido(texto) {
+
+        }
+
+	</script>
+</div>
