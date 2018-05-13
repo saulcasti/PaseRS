@@ -10,6 +10,7 @@
 				<th>Email</th>
 				<th ><a class="btn btn-link" style="color:#0174DF" onclick="ordenarPorNombre()">Nombre</a></th>
 				<th><a class="btn btn-link" style="color:#0174DF" onclick="ordenarApellido()">Apellido</a></th>
+				<th>Sin leer</th>
 			</tr>
 		</thead>
 		<tbody id="tablaCuerpo">
@@ -48,12 +49,13 @@
 	function actualizarTabla(friendsTable) {
 		$("#tablaCuerpo").empty(); // Vaciar la tabla
 		for (i = 0; i < friendsTable.length; i++) {
-			$("#tablaCuerpo").append(
-					"<tr id="+friendsTable[i]._id+">"
-						+ "<td>"+ friendsTable[i].email + "</td>"
-						+ "<td>"+ "<a class='btn btn-link' style='color:#0174DF;' onclick=chat('" + friendsTable[i]._id +"'" +","+ "'"+ friendsTable[i].email + "')>"
-							+ friendsTable[i].nombre+"</a>"  + "</td>"
-						+ "<td>"+ friendsTable[i].apellido + "</td>");
+                $("#tablaCuerpo").append(
+                    "<tr id=" + friendsTable[i]._id + ">"
+                    + "<td>" + friendsTable[i].email + "</td>"
+                    + "<td>" + "<a class='btn btn-link' style='color:#0174DF;' onclick=chat('" + friendsTable[i]._id + "'" + "," + "'" + friendsTable[i].email + "')>"
+                    + friendsTable[i].nombre + "</a>" + "</td>"
+                    + "<td>" + friendsTable[i].apellido + "</td>");
+                   // + "<td class:'text-center'>" + numero + "</td>");
 		}
 	}
 
@@ -102,5 +104,6 @@
         emailSeleccionado = email;
         $("#contenedor-principal").load("widget-chat.html");
     }
+
 
 </script>
