@@ -73,6 +73,10 @@ module.exports = function(app, gestorBD) {
         });
     });
 
+    /**
+     * Servicio Web - S.3 Usuario identificado: Crear un mensaje
+     *
+     */
     app.post("/api/mensaje", function (req, res) {
         var mensaje = {
             emisor: res.usuario,
@@ -113,8 +117,12 @@ module.exports = function(app, gestorBD) {
         });
     });
 
+
+
+
     /**
-     * Lista los mensajes entre el emisor y el receptor que se pasan en el path
+     * Servicio Web - S.4 Usuario identificado: Obtener mis mensajes de una “conversación”
+     *
      */
     app.get("/api/mensaje/:idReceptor", function (req, res){
 
@@ -162,12 +170,12 @@ module.exports = function(app, gestorBD) {
 
         });
 
-
-
-
-
     });
 
+    /**
+     * Servicio Web - S.5 Usuario identificado: Marcar mensaje como leído
+     *
+     */
     app.put("/api/mensaje/:id", function (req, res){
         var criterio = { "_id": gestorBD.mongo.ObjectID(req.params.id)}
 
