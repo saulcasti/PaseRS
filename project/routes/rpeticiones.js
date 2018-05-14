@@ -58,7 +58,7 @@ module.exports = function(app, swig, gestorBD) {
         });
     });
 
-    app.get("/request/list", function (req, res) {
+    app.get("/peticion/list", function (req, res) {
         var pg = (req.query.pg == null) ? 1 : parseInt(req.query.pg); //Es String!!
         var criterio = {
             IdDestino: gestorBD.mongo.ObjectID(req.session.usuarioId)
