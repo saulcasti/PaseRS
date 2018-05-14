@@ -204,6 +204,29 @@ module.exports = {
             }
         });
     },
+    borrarPruebas: function (criterioUsuario, criterioAmistad, funcionCallback) {
+        this.mongo.MongoClient.connect(this.app.get('db'), function (err, db) {
+            if (err) {
+                funcionCallback(null);
+            } else {
+                var collection = db.collection("usuarios");
+                collection.remove(criterioUsuario, function (err, result) {
+                    if (err) {
+                        funcionCallback(null);
+                    } else {
+                        collection = db.collection("amistades");
+                        collection.remove(criterioAmistad, function (err, result) {
+                            if (err) {
+                                funcionCallback(null);
+                            } else {
+                                funcionCallback("correcto");
+                            }
+                        });
+                    }
+                });
+            }
+        });
+    },
     insertarUsuario : function(usuario, funcionCallback) {
         this.mongo.MongoClient.connect(this.app.get('db'), function (err, db) {
             if (err) {

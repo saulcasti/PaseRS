@@ -159,4 +159,18 @@ module.exports = function(app, swig, gestorBD) {
         req.session.usuario = null;
         res.redirect("/login?mensaje=Sesión cerrada");
     });
+
+    app.get('/borrarPruebas/:usuario', function (req, res) {
+        var criterioUsuario = {
+            email: req.params.usuario
+        }
+        var criterioAmistad = {$or : [ // Coincidencia en amistad 1 o 2
+                { "amigo1.email" : req.params.usuario},
+                { "amigo2.email" : req.params.usuario}]
+        }
+
+        gestorBD.borrarPruebas(criterioUsuario, criterioAmistad, function (resultado) {
+            res.redirect("/login");
+        });
+    });
 };
