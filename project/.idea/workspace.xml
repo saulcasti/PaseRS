@@ -17,17 +17,8 @@
       <file leaf-file-name="app.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1020">
-              <caret line="68" column="11" selection-start-line="68" selection-start-column="11" selection-end-line="68" selection-end-column="11" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="rapiusuarios.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/routes/rapiusuarios.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1515">
-              <caret line="175" column="73" lean-forward="true" selection-start-line="175" selection-start-column="73" selection-end-line="175" selection-end-column="73" />
+            <state relative-caret-position="510">
+              <caret line="34" column="31" lean-forward="true" selection-start-line="34" selection-start-column="31" selection-end-line="34" selection-end-column="31" />
             </state>
           </provider>
         </entry>
@@ -41,11 +32,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="widget-listFriends.html" pinned="false" current-in-tab="true">
+      <file leaf-file-name="widget-listFriends.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/public/widget-listFriends.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="149">
-              <caret line="70" column="168" selection-start-line="70" selection-start-column="168" selection-end-line="70" selection-end-column="168" />
+            <state relative-caret-position="196">
+              <caret line="40" column="35" lean-forward="true" selection-start-line="40" selection-start-column="35" selection-end-line="40" selection-end-column="35" />
               <folding>
                 <element signature="n#style#0;n#a#0;n#td#1;n#tr#0;n#!!top" expanded="true" />
               </folding>
@@ -62,11 +53,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="widget-chat.html" pinned="false" current-in-tab="false">
+      <file leaf-file-name="widget-chat.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/public/widget-chat.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="351">
-              <caret line="90" column="29" selection-start-line="90" selection-start-column="23" selection-end-line="90" selection-end-column="29" />
+            <state relative-caret-position="331">
+              <caret line="36" column="12" selection-start-line="36" selection-start-column="12" selection-end-line="36" selection-end-column="12" />
               <folding>
                 <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#li#0;n#!!top" expanded="true" />
@@ -126,8 +117,8 @@
         <option value="$PROJECT_DIR$/public/widget-login.html" />
         <option value="$PROJECT_DIR$/public/cliente.html" />
         <option value="$PROJECT_DIR$/routes/rapiusuarios.js" />
-        <option value="$PROJECT_DIR$/public/widget-chat.html" />
         <option value="$PROJECT_DIR$/public/widget-listFriends.html" />
+        <option value="$PROJECT_DIR$/public/widget-chat.html" />
       </list>
     </option>
   </component>
@@ -146,7 +137,7 @@
     </packageJsonPaths>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="689" />
+    <option name="x" value="794" />
     <option name="y" value="37" />
     <option name="width" value="1348" />
     <option name="height" value="1047" />
@@ -277,23 +268,23 @@
       <workItem from="1526129067979" duration="6562000" />
       <workItem from="1526222525080" duration="14291000" />
       <workItem from="1526240717774" duration="3315000" />
-      <workItem from="1526317828506" duration="2643000" />
+      <workItem from="1526317828506" duration="6209000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="72027000" />
+    <option name="totallyTimeSpent" value="75593000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="689" y="37" width="1348" height="1047" extended-state="0" />
+    <frame x="794" y="37" width="1348" height="1047" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="1" visible="true" weight="0.13501483" />
+      <window_info active="true" content_ui="combo" id="Project" order="1" visible="true" weight="0.13501483" />
       <window_info anchor="bottom" id="TODO" order="9" />
       <window_info anchor="bottom" id="Docker" order="10" show_stripe_button="false" />
       <window_info anchor="bottom" id="Event Log" order="0" sideWeight="0.50416666" side_tool="true" weight="0.3315734" />
       <window_info anchor="bottom" id="Version Control" order="1" show_stripe_button="false" />
-      <window_info active="true" anchor="bottom" id="Run" order="5" sideWeight="0.49583334" visible="true" weight="0.3340185" />
+      <window_info anchor="bottom" id="Run" order="5" sideWeight="0.49583334" visible="true" weight="0.3340185" />
       <window_info id="Structure" order="2" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Terminal" order="2" />
       <window_info id="Favorites" order="0" side_tool="true" />
@@ -601,13 +592,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1020">
-          <caret line="68" column="11" selection-start-line="68" selection-start-column="11" selection-end-line="68" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/public/widget-login.html">
       <provider selected="true" editor-type-id="text-editor">
         <state>
@@ -629,31 +613,38 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/public/widget-listFriends.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="196">
+          <caret line="40" column="35" lean-forward="true" selection-start-line="40" selection-start-column="35" selection-end-line="40" selection-end-column="35" />
+          <folding>
+            <element signature="n#style#0;n#a#0;n#td#1;n#tr#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/routes/rapiusuarios.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1515">
-          <caret line="175" column="73" lean-forward="true" selection-start-line="175" selection-start-column="73" selection-end-line="175" selection-end-column="73" />
+        <state relative-caret-position="214">
+          <caret line="174" column="7" lean-forward="true" selection-start-line="174" selection-start-column="7" selection-end-line="174" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="510">
+          <caret line="34" column="31" lean-forward="true" selection-start-line="34" selection-start-column="31" selection-end-line="34" selection-end-column="31" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/public/widget-chat.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="351">
-          <caret line="90" column="29" selection-start-line="90" selection-start-column="23" selection-end-line="90" selection-end-column="29" />
+        <state relative-caret-position="331">
+          <caret line="36" column="12" selection-start-line="36" selection-start-column="12" selection-end-line="36" selection-end-column="12" />
           <folding>
             <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#li#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#li#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/widget-listFriends.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="149">
-          <caret line="70" column="168" selection-start-line="70" selection-start-column="168" selection-end-line="70" selection-end-column="168" />
-          <folding>
-            <element signature="n#style#0;n#a#0;n#td#1;n#tr#0;n#!!top" expanded="true" />
           </folding>
         </state>
       </provider>
