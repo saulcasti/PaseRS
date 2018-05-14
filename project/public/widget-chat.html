@@ -16,7 +16,7 @@
 	<form class="form-horizontal"  enctype="multipart/form-data">
 		<div class="panel-footer">
 			<div class="input-group">
-				<input id="btn-input" type="text" class="form-control input-sm"
+				<input id="input-chat" type="text" class="form-control input-sm"
 					   placeholder="Introduce tu mensaje..." name="contenido" /> <span class="input-group-btn">
 						<button class="btn btn-danger" id="btn-chat" type="button" onclick="crearMensaje()">Enviar</button>
 					</span>
@@ -121,8 +121,8 @@
 
         // Método que se acciona al pulsar el botón enviar
         function crearMensaje() {
-			var texto = $("#btn-input").val();
-            $("#btn-input").val('');
+			var texto = $("#input-chat").val();
+            $("#input-chat").val('');
 			if(texto.length > 0){
                 $.ajax({
                     url : URLbase + "/mensaje",
