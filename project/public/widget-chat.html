@@ -29,8 +29,15 @@
 	<script>
         window.history.pushState("", "", "/cliente.html?w=chat");
 
-        //Se recarga cada 1seg
-        setInterval(function(){
+        cargarMensajes();
+
+        //Se recarga cada 7seg
+        var actualizarCadaX = setInterval(function(){
+            cargarMensajes()
+;		}, 3000);
+
+
+		function cargarMensajes() {
             $.ajax({
                 url : URLbase + "/mensaje/"+ idChatSeleccionada,
                 type : "GET",
@@ -46,15 +53,15 @@
 
                 },
                 error : function(error) {
+                    clearInterval(actualizarCadaX);
                     $("#contenedor-principal").load("widget-login.html");
                 }
             });
-		}, 1000);
-
-
-
+        }
 
         function widgetFriendsList() {
+            clearInterval(actualizarCadaX);
+		    idChatSeleccionada='';
             $("#contenedor-principal").load("widget-listFriends.html");
 		};
 

@@ -8,8 +8,8 @@
 		<thead>
 			<tr>
 				<th>Email</th>
-				<th ><a style="color:#0174DF; cursor: pointer;" onclick="ordenarPorNombre()">Nombre</a></th>
-				<th><a  style="color:#0174DF; cursor: pointer;" onclick="ordenarApellido()">Apellido</a></th>
+				<th >Nombre</a></th>
+				<th>Apellido</a></th>
 				<th>Sin leer</th>
 			</tr>
 		</thead>
@@ -43,6 +43,7 @@
 
 			},
 			error : function(error) {
+                clearInterval(mantenerActualizado);
 				$("#contenedor-principal").load("widget-login.html");
 			}
 		});
@@ -67,38 +68,16 @@
 
 	$('#filtro-nombre').on('input', function(e) {
 		var amigosFiltrados = [];
-		var nombreFiltro = $("#filtro-nombre").val();
+		var nombreFiltro = $("#filtro-nombre").val().toUpperCase(); // Se pasa a mayúsculas para que se encuentre lo que contenga esa letra/nombre sin importar min/may.
 
 		for (i = 0; i < amigos.length; i++) {
-			if (amigos[i].nombre.indexOf(nombreFiltro) != -1) {
+			if (amigos[i].nombre.toUpperCase().indexOf(nombreFiltro) != -1) {
 				amigosFiltrados.push(amigos[i]);
 			}
 		}
 		actualizarTabla(amigosFiltrados);
 	});
 
-
-	function ordenarApellido() {
-        amigos.sort(function(a, b) {
-            if (a.apellido > b.apellido)
-                return 1;
-            if (a.apellido < b.apellido)
-                return -1;
-            return 0;
-        });
-        actualizarTabla(amigos);
-	}
-
-	function ordenarPorNombre() {
-		amigos.sort(function(a, b) {
-			if (a.nombre > b.nombre)
-				return 1;
-			if (a.nombre < b.nombre)
-				return -1;
-			return 0;
-		});
-		actualizarTabla(amigos);
-	}
 
     function chat(_id, email) {
 	    //no se si habrá que pasar el token
@@ -123,17 +102,21 @@
                         for (var i = 0; i < mensaje.length; i++) {
                             if (mensaje[i].leido == false) numero++;
                         }
-                        $("#numero" + amigos[i]._id).text(numero);
+                        if(numero >0) {
+							$("#numero" + amigos[i]._id).remove();
+                            $("#" + amigos[i]._id).append("<td class:'text-center' id='numero" + amigos[i]._id + "' >" + numero + "</td>");
+                        }
 
                 },
                 error : function(error) {
+                    clearInterval(mantenerActualizado);
                     $("#contenedor-principal").load("widget-login.html");
                 }
             });
         }
     }
 
-    setInterval(function(){
+    var mantenerActualizado = setInterval(function(){
         cargarNumeros();
 
     }, 10000);
