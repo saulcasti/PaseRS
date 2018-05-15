@@ -117,14 +117,11 @@ module.exports = function(app, gestorBD) {
         });
     });
 
-
-
-
     /**
      * Servicio Web - S.4 Usuario identificado: Obtener mis mensajes de una “conversación”
      *
      */
-    app.get("/api/mensaje/:idReceptor", function (req, res){
+    app.get("/api/mensaje/", function (req, res){
 
         gestorBD.obtenerObjetos({email : res.usuario }, 'usuarios', function(usuarios) {
             if (usuarios == null || usuarios.length == 0) {
@@ -132,7 +129,7 @@ module.exports = function(app, gestorBD) {
                 res.json({error: "No se ha encontrado el usuario"});
             } else {
                 var idEmisor = usuarios[0]._id;
-                var idReceptor = gestorBD.mongo.ObjectID(req.params.idReceptor);
+                var idReceptor = gestorBD.mongo.ObjectID(req.query.idReceptor);
 
                 var criterio = {$or : [ // Coincidencia en amistad 1 o 2
                         { "_id" : idEmisor},
