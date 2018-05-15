@@ -31,13 +31,13 @@ public class PaseTests {
 
 	// En Windows (Debe ser la versión 46.0 y desactivar las actualizacioens
 	// automáticas)):
-	static String PathFirefox = "E:\\USER\\Desktop\\Firefox46.win\\FirefoxPortable.exe";
+	//static String PathFirefox = "E:\\USER\\Desktop\\Firefox46.win\\FirefoxPortable.exe";
 	// static String PathFirefox = "C:\\Users\\Pelayo Díaz
 	// Soto\\Desktop\\Firefox46.win\\FirefoxPortable.exe";
 	// En MACOSX (Debe ser la versión 46.0 y desactivar las actualizaciones
 	// automáticas):
-	// static String PathFirefox =
-	// "/Applications/Firefox.app/Contents/MacOS/firefox-bin";
+	static String PathFirefox =
+	 "/Applications/Firefox.app/Contents/MacOS/firefox-bin";
 	// Común a Windows y a MACOSX
 	static WebDriver driver = getDriver(PathFirefox);
 	static String URL = "http://localhost:8081";
