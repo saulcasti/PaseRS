@@ -125,7 +125,14 @@ module.exports = {
                             if (err) {
                                 funcionCallback(null);
                             } else {
-                                funcionCallback("correcto");
+                                collection = db.collection("mensajes");
+                                collection.remove({"text": {$regex : "Test.*"}}, function (err, result) {
+                                    if (err) {
+                                        funcionCallback(null);
+                                    } else {
+                                        funcionCallback("correcto");
+                                    }
+                                });
                             }
                         });
                     }
