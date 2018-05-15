@@ -39,9 +39,9 @@
 
 		function cargarMensajes() {
             $.ajax({
-                url : URLbase + "/mensaje/"+ idChatSeleccionada,
+                url : URLbase + "/mensaje",
                 type : "GET",
-                data : {},
+                data : {"idReceptor":idChatSeleccionada},
                 dataType : 'json',
                 headers : {
                     "token" : token

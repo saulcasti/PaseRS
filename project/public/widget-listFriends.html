@@ -90,9 +90,9 @@
     function cargarNumeros(){
         for (i = 0; i < amigos.length; i++) {
             $.ajax({
-                url : URLbase + "/mensaje/"+ amigos[i]._id,
+                url : URLbase + "/mensaje?",
                 type : "GET",
-                data : {},
+                data : {"idReceptor":amigos[i]._id},
                 dataType : 'json',
                 headers : {
                     "token" : token
