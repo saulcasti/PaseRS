@@ -36,23 +36,16 @@
             <td> {{usuario.email}}</td>
             <td> {{usuario.nombre}}</td>
             <td> {{usuario.apellido}}</td>
-            {% if petiSize == 0 && usuario.email != sesion %} <!--Si no existen peticiones-->
-            <td><a class="btn btn-primary pull-right"
-                   href="/peticion/mandar/{{usuario._id.toString()}}">
-                Mandar Solicitud de Amistad</a></td>
+            {% if usuario.esAmigo %}
+            <td>Ya eres amigo de este usuario</td>
+            {% elseif usuario.tienePeticion %}
+            <td>Ya has enviado una petición.</td>
+            {% elseif usuario.email == sesion %}
+            <td>¿Quieres ser amigo de ti mismo?</td>
             {% else %}
-            {% set encontrado = false %}
-            {% for peticion in peticiones %} <!--Si existen se busca la del usuario actual-->
-            {% if peticion.IdDestino.toString() == usuario._id.toString() %}
-            <td style="text-align: center">Solicitud ya Mandada.</td>
-            {% set encontrado = true %} <!--Si se encuentra se inserta texto y no el boton-->
-            {% endif %}
-            {% endfor %}
-            {% if !encontrado && usuario.email != sesion %} <!--Si no se encuentra se inserta el boton-->
             <td><a class="btn btn-primary pull-right"
                    href="/peticion/mandar/{{usuario._id.toString()}}">
                 Mandar Solicitud de Amistad</a></td>
-            {% endif %}
             {% endif %}
         </tr>
     {% endfor %}
