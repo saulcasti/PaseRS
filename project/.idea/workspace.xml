@@ -44,8 +44,8 @@
       <file leaf-file-name="widget-listFriends.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/public/widget-listFriends.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="309">
-              <caret line="94" column="35" selection-start-line="94" selection-start-column="35" selection-end-line="94" selection-end-column="35" />
+            <state relative-caret-position="158">
+              <caret line="79" lean-forward="true" selection-start-line="79" selection-end-line="79" />
               <folding>
                 <element signature="n#style#0;n#a#0;n#td#1;n#tr#0;n#!!top" expanded="true" />
               </folding>
@@ -278,12 +278,12 @@
       <workItem from="1526222525080" duration="14291000" />
       <workItem from="1526240717774" duration="3315000" />
       <workItem from="1526317828506" duration="6790000" />
-      <workItem from="1526413881437" duration="2235000" />
+      <workItem from="1526413881437" duration="2353000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="78409000" />
+    <option name="totallyTimeSpent" value="78527000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="524" y="66" width="1348" height="1047" extended-state="0" />
@@ -294,7 +294,7 @@
       <window_info anchor="bottom" id="Docker" order="10" show_stripe_button="false" />
       <window_info anchor="bottom" id="Event Log" order="0" sideWeight="0.50416666" side_tool="true" weight="0.3315734" />
       <window_info anchor="bottom" id="Version Control" order="1" show_stripe_button="false" />
-      <window_info active="true" anchor="bottom" id="Run" order="5" sideWeight="0.49583334" visible="true" weight="0.3340185" />
+      <window_info anchor="bottom" id="Run" order="5" sideWeight="0.49583334" weight="0.3340185" />
       <window_info id="Structure" order="2" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Terminal" order="2" />
       <window_info id="Favorites" order="0" side_tool="true" />
@@ -651,8 +651,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/public/widget-listFriends.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="309">
-          <caret line="94" column="35" selection-start-line="94" selection-start-column="35" selection-end-line="94" selection-end-column="35" />
+        <state relative-caret-position="158">
+          <caret line="79" lean-forward="true" selection-start-line="79" selection-end-line="79" />
           <folding>
             <element signature="n#style#0;n#a#0;n#td#1;n#tr#0;n#!!top" expanded="true" />
           </folding>
