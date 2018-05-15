@@ -11,7 +11,7 @@ module.exports = function(app, swig, gestorBD) {
         var criterio = {
             email : req.body.email
         }
-        gestorBD.obtenerUsuarios(criterio, function(usuarios){
+        gestorBD.obtenerObjetos(criterio, 'usuarios', function(usuarios){
             if (usuarios != null && usuarios.length > 0) {
                 res.redirect("/signup?mensaje=Ya existe un usuario con ese email" +
                     "&tipoMensaje=alert-danger ");
@@ -39,7 +39,7 @@ module.exports = function(app, swig, gestorBD) {
                     apellido: req.body.lastName,
                     password: seguro
                 }
-                gestorBD.insertarUsuario(usuario, function (id) {
+                gestorBD.insertarObjeto(usuario, 'usuarios', function (id) {
                     if (id == null) {
                         res.redirect("/signup?mensaje=Error al registrar usuario");
                     } else {
@@ -57,28 +57,78 @@ module.exports = function(app, swig, gestorBD) {
             { "email" : {$regex : ".*"+req.query.busqueda+".*"} }]
         };
 
-        gestorBD.obtenerUsuariosPg( criterio, pg, function (usuarios, total) {
+        gestorBD.obtenerObjetosPg( criterio, pg, 'usuarios', function (usuarios, total) { //Obtengo todos los usuarios
             if (usuarios==null){
                 res.send("Error al buscar los usuarios.")
             } else {
                 var criterio2 = {
                     "usuario" : req.session.usuario
                 }
-                gestorBD.obtenerPeticionesMandadas(criterio2, function (peticiones) {
-                    var pgUltima = total / 5;
-                    if (total % 5 > 0) { // Sobran decimales
-                        pgUltima = pgUltima + 1;
+                gestorBD.obtenerObjetos(criterio2, 'peticiones', function (peticiones) {
+                    if (peticiones==null){
+                        res.send("Error al buscar las peticiones");
+                    } else {
+                        var id = gestorBD.mongo.ObjectID(req.session.usuarioId);
+                        var criterio3 = {$or : [ // Coincidencia en amistad 1 o 2
+                                { "amigo1._id" : id},
+                                { "amigo2._id" : id}]
+                        };
+                        gestorBD.obtenerObjetos(criterio3, 'amistades', function (amistades) {
+                            if (amistades==null){
+                                res.send("Error al buscar los amigos.")
+                            } else {
+                                var amigos = [];
+
+                                for (i = 0; i<amistades.length; i++){
+                                    if (amistades[i].amigo1._id.toString()== req.session.usuarioId){
+                                        amigos.push(amistades[i].amigo2);
+                                    } else if (amistades[i].amigo2._id.toString()==req.session.usuarioId) {
+                                        amigos.push(amistades[i].amigo1);
+                                    }
+                                }
+                                var seguirAmigos = true;
+                                var seguirAmistades = true;
+
+                                for (i=0; i<usuarios.length; i++){
+                                    seguirAmigos = true;
+                                    for (j=0; j<amigos.length; j++){
+                                        if (seguirAmigos) {
+                                            if (usuarios[i]._id.toString() == amigos[j]._id.toString()) {
+                                                usuarios[i].esAmigo = true;
+                                                seguirAmigos = false;
+                                            } else {
+                                                usuarios[i].esAmigo = false;
+                                            }
+                                        }
+                                    }
+                                    seguirAmistades = true;
+                                    for (z=0; z<peticiones.length; z++){
+                                        if (seguirAmistades) {
+                                            if (usuarios[i]._id.toString() == peticiones[z].IdDestino.toString()) {
+                                                usuarios[i].tienePeticion = true;
+                                                seguirAmistades = false;
+                                            } else {
+                                                usuarios[i].tienePeticion = false;
+                                            }
+                                        }
+                                    }
+                                }
+
+                                var pgUltima = total / 5;
+                                if (total % 5 > 0) { // Sobran decimales
+                                    pgUltima = pgUltima + 1;
+                                }
+
+                                var respuesta = swig.renderFile('views/bListUsers.html', {
+                                    "usuarios": usuarios,
+                                    pgActual: pg,
+                                    pgUltima: pgUltima,
+                                    "sesion": req.session.usuario
+                                });
+                                res.send(respuesta);
+                            }
+                        });
                     }
-                    var respuesta = swig.renderFile('views/bListUsers.html', {
-                        "usuarios": usuarios,
-                        "peticiones" : peticiones,
-                        "petiSize" : peticiones.length,
-                        "encontrado" : false,
-                        pgActual: pg,
-                        pgUltima: pgUltima,
-                        "sesion": req.session.usuario
-                    });
-                    res.send(respuesta);
                 });
             }
         });
@@ -92,7 +142,7 @@ module.exports = function(app, swig, gestorBD) {
                 { "amigo2._id" : userId}]
         };
 
-        gestorBD.obtenerAmistadesPg( criterio, pg, function (amistades, total) {
+        gestorBD.obtenerObjetosPg( criterio, pg, 'amistades',function (amistades, total) {
             if (amistades==null){
                 res.send("Error al buscar las amistades.")
             } else {
@@ -141,7 +191,7 @@ module.exports = function(app, swig, gestorBD) {
             email : req.body.email,
             password : seguro
         }
-        gestorBD.obtenerUsuarios(criterio, function(usuarios) {
+        gestorBD.obtenerObjetos(criterio, 'usuarios', function(usuarios) {
             if (usuarios == null || usuarios.length == 0) {
                 req.session.usuario = null;
                 res.redirect("/login" +

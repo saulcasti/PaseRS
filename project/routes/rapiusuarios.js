@@ -14,7 +14,7 @@ module.exports = function(app, gestorBD) {
              password : seguro
 		 }
 
-		 gestorBD.obtenerUsuarios(criterio, function(usuarios) {
+		 gestorBD.obtenerObjetos(criterio, 'usuarios', function(usuarios) {
              if (usuarios == null || usuarios.length == 0) {
                  res.status(401); // Unauthorized
                  res.json({
@@ -52,7 +52,7 @@ module.exports = function(app, gestorBD) {
                 { "amigo2.email" : emailUser}]
         };
 
-        gestorBD.obtenerAmistades( criterio, function (amistades, total) {
+        gestorBD.obtenerObjetosYContar( criterio, 'amistades', function (amistades, total) {
             if (amistades==null){
                 res.status(500);
                 res.json({error: "Se ha producido un error"})
@@ -99,12 +99,12 @@ module.exports = function(app, gestorBD) {
                 }]
         };
 
-        gestorBD.obtenerAmistades( criterio, function (amistades, total) {
+        gestorBD.obtenerObjetosYContar( criterio, 'amistades', function (amistades, total) {
             if (amistades==null){
                 res.status(500);
                 res.json({error: "No sois amigos"})
             } else {
-                gestorBD.crearMensaje(mensaje, function(id){
+                gestorBD.insertarObjeto(mensaje, 'mensajes', function(id){
                     if (id==null) {
                         res.status(500);
                         res.json({error: "Se ha producido un error"})
@@ -126,7 +126,7 @@ module.exports = function(app, gestorBD) {
      */
     app.get("/api/mensaje/:idReceptor", function (req, res){
 
-        gestorBD.obtenerUsuarios({email : res.usuario }, function(usuarios) {
+        gestorBD.obtenerObjetos({email : res.usuario }, 'usuarios', function(usuarios) {
             if (usuarios == null || usuarios.length == 0) {
                 res.status(500);
                 res.json({error: "No se ha encontrado el usuario"});
@@ -139,7 +139,7 @@ module.exports = function(app, gestorBD) {
                         { "_id" : idReceptor}]
                 };
 
-                gestorBD.obtenerUsuarios(criterio, function(usuarios){
+                gestorBD.obtenerObjetos(criterio, 'usuarios', function(usuarios){
                     if (usuarios==null || usuarios.length==0){
                         res.status(500);
                         res.json({error: "No se han encontrado los usuarios"});
@@ -155,7 +155,7 @@ module.exports = function(app, gestorBD) {
                                         {"destino": usuarios[0].email}]
                                 }]
                         };
-                        gestorBD.obtenerMensajes(criterio, function (mensajes) {
+                        gestorBD.obtenerObjetosYContar(criterio, 'mensajes', function (mensajes) {
                             if (mensajes==null){
                                 res.status(500);
                                 res.json({error: "No se han encontrado mensajes"});

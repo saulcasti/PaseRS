@@ -5,14 +5,14 @@ module.exports = function(app, swig, gestorBD) {
         var usuarioIdDestino = gestorBD.mongo.ObjectID(req.params.id);
         var sessionId = gestorBD.mongo.ObjectID(req.session.usuarioId);
 
-        gestorBD.obtenerUsuarios({_id: sessionId}, function (usuarios) {
+        gestorBD.obtenerObjetos({_id: sessionId}, 'usuarios', function (usuarios) {
             var peticion = {
                 usuario : req.session.usuario,
                 nombre: usuarios[0].nombre,
                 apellido: usuarios[0].apellido,
                 IdDestino : usuarioIdDestino
             }
-            gestorBD.mandarPeticion(peticion ,function(idPeticion){
+            gestorBD.insertarObjeto(peticion, 'peticiones', function(idPeticion){
                 if ( idPeticion == null ){
                     res.send(respuesta);
                 } else {
@@ -27,7 +27,7 @@ module.exports = function(app, swig, gestorBD) {
         var criterio = {
             _id : peticionId
         }
-        gestorBD.obtenerPeticionesMandadas(criterio ,function(peticion){
+        gestorBD.obtenerObjetos(criterio, 'peticiones', function(peticion){
             if ( peticion == null || peticion.length == 0){
                 res.send("/user/list" +
                     "?mensaje=Ha ocurrido un error");
@@ -36,7 +36,7 @@ module.exports = function(app, swig, gestorBD) {
                         {"email" : peticion[0].usuario},
                         {"email" : req.session.usuario}
                 ]}
-                gestorBD.obtenerUsuarios(criterio, function (usuarios) {
+                gestorBD.obtenerObjetos(criterio, 'usuarios', function (usuarios) {
                     if ( usuarios == null || usuarios.length != 2){
                         res.send("/user/list" +
                             "?mensaje=Ha ocurrido un error");
@@ -63,13 +63,14 @@ module.exports = function(app, swig, gestorBD) {
         var criterio = {
             IdDestino: gestorBD.mongo.ObjectID(req.session.usuarioId)
         }
-        gestorBD.obtenerPeticionesMandadas(criterio, function (peticiones, total) {
+        gestorBD.obtenerObjetosPg(criterio, pg, 'peticiones', function (peticiones, total) {
             var pgUltima = total / 5;
             if (total % 5 > 0) { // Sobran decimales
                 pgUltima = pgUltima + 1;
             }
+            pgUltima = (pgUltima==0) ? 1 : pgUltima;
             if (peticiones == null) {
-                res.send("Error al buscar los usuarios.")
+                res.send("Error al buscar las peticiones.")
             } else {
                 var respuesta = swig.renderFile('views/bRequestList.html', {
                     "peticiones": peticiones,
