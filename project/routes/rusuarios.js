@@ -121,6 +121,7 @@ module.exports = function(app, swig, gestorBD) {
 
                                 var respuesta = swig.renderFile('views/bListUsers.html', {
                                     "usuarios": usuarios,
+                                    "busqueda" : req.query.busqueda,
                                     pgActual: pg,
                                     pgUltima: pgUltima,
                                     "sesion": req.session.usuario
