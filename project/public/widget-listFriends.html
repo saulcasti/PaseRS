@@ -89,30 +89,7 @@
 
     function cargarNumeros(){
         for (i = 0; i < amigos.length; i++) {
-            $.ajax({
-                url : URLbase + "/mensaje?",
-                type : "GET",
-                data : {"idReceptor":amigos[i]._id},
-                dataType : 'json',
-                headers : {
-                    "token" : token
-                },
-                success : function(mensaje) {
-                        var numero = 0;
-                        for (var i = 0; i < mensaje.length; i++) {
-                            if (mensaje[i].leido == false) numero++;
-                        }
-                        if(numero >0) {
-							$("#numero" + amigos[i]._id).remove();
-                            $("#" + amigos[i]._id).append("<td class:'text-center' id='numero" + amigos[i]._id + "' >" + numero + "</td>");
-                        }
-
-                },
-                error : function(error) {
-                    clearInterval(mantenerActualizado);
-                    $("#contenedor-principal").load("widget-login.html");
-                }
-            });
+            contarMensajes(amigos[i]._id);
         }
     }
 
@@ -120,5 +97,33 @@
         cargarNumeros();
 
     }, 10000);
+
+    function contarMensajes(idAmigo){
+        $.ajax({
+            url : URLbase + "/mensaje?",
+            type : "GET",
+            data : {"idReceptor":idAmigo},
+            dataType : 'json',
+            headers : {
+                "token" : token
+            },
+            success : function(mensaje) {
+                var numero = 0;
+                for (var i = 0; i < mensaje.length; i++) {
+                    if (mensaje[i].leido == false) numero++;
+                }
+                if(numero >0) {
+                    $("#numero" + idAmigo).remove();
+                    $("#" + idAmigo).append("<td class:'text-center' id='numero" + idAmigo + "' >" + numero + "</td>");
+                    console.log(idAmigo + " "+numero)
+                }
+
+            },
+            error : function(error) {
+                clearInterval(mantenerActualizado);
+                $("#contenedor-principal").load("widget-login.html");
+            }
+        });
+	}
 
 </script>
