@@ -31,13 +31,13 @@ public class PaseTests {
 
 	// En Windows (Debe ser la versión 46.0 y desactivar las actualizacioens
 	// automáticas)):
-	//static String PathFirefox = "E:\\USER\\Desktop\\Firefox46.win\\FirefoxPortable.exe";
+	static String PathFirefox = "E:\\USER\\Desktop\\Firefox46.win\\FirefoxPortable.exe";
 	// static String PathFirefox = "C:\\Users\\Pelayo Díaz
 	// Soto\\Desktop\\Firefox46.win\\FirefoxPortable.exe";
 	// En MACOSX (Debe ser la versión 46.0 y desactivar las actualizaciones
 	// automáticas):
-	static String PathFirefox =
-	 "/Applications/Firefox.app/Contents/MacOS/firefox-bin";
+	// static String PathFirefox =
+	// "/Applications/Firefox.app/Contents/MacOS/firefox-bin";
 	// Común a Windows y a MACOSX
 	static WebDriver driver = getDriver(PathFirefox);
 	static String URL = "http://localhost:8081";
@@ -520,7 +520,7 @@ public class PaseTests {
 		By boton = By.id("btn-chat");
 		driver.findElement(boton).click();
 		try {
-			Thread.sleep(9000); //Para darle tiempo a recargar la pagina
+			Thread.sleep(6000); //Para darle tiempo a recargar la pagina
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
@@ -557,6 +557,15 @@ public class PaseTests {
 		List<WebElement> elements = SeleniumUtils.EsperaCargaPagina(driver, "free", "//tbody/tr",
 					PO_View.getTimeout());
 		assertTrue(elements.size() > 0);
+		try {
+			Thread.sleep(1000); //Para darle tiempo a recargar la pagina
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		//Comprobamos que tiene un mensaje sin leer
+		elements = SeleniumUtils.EsperaCargaPagina(driver, "text", "1",
+				PO_View.getTimeout());
+		assertTrue(elements.size() > 0);
 		//Buscamos el enlace al chat
 		elements = SeleniumUtils.EsperaCargaPagina(driver, "free", "//a[contains(@onclick,'chat')]",
 				PO_View.getTimeout());
@@ -569,85 +578,97 @@ public class PaseTests {
 		elements = SeleniumUtils.EsperaCargaPagina(driver, "text", "Test 17",
 				PO_View.getTimeout());
 		assertTrue(elements.size()==1);
-		//Comporbamos que el numero de mensajes leidos es igual numero de mensajes
-//		int nMensajes = SeleniumUtils.EsperaCargaPagina(driver, "free", "//li",
-//				PO_View.getTimeout()).size();
-//		int nLeidos = SeleniumUtils.EsperaCargaPagina(driver, "text", "leido",
-//				PO_View.getTimeout()).size();
-//		assertEquals(nMensajes, nLeidos);
+		//Comprobamos que el numero de mensajes leídos es igual al numero de mensajes totales
+		int tamaño1 = SeleniumUtils.EsperaCargaPagina(driver, "free", "//li", PO_View.getTimeout()).size();
+		int tamaño2 = SeleniumUtils.EsperaCargaPagina(driver, "text", "do **",PO_View.getTimeout()).size()-1;
+		assertEquals(tamaño1, tamaño2);
 	}
 	
-//	/**
-//	 * Identificarse en la aplicación y enviar tres mensajes a un amigo, 
-//	 * validar que los mensajes enviados aparecen en el chat. Identificarse 
-//	 * después con el usuario que recibido el mensaje y validar que el número 
-//	 * de mensajes sin leer aparece en la propia lista de amigos.
-//	 */
-//	@Test
-//	public void P19_CListaMenNoLeidoVal() {
-//		PO_View.setTimeout(10); //Aumentamos el tiempo de espera tolerable
-//		// Vamos al formulario de incio de sesion
-//		driver.navigate().to("http://localhost:8081/cliente.html");
-//		//Comprobamos que estamos en la página correcta
-//		PO_View.checkElement(driver, "id", "widget-login");
-//		
-//		//Rellenamos el formulario: Usuario no existe
-//		PO_LogInView.fillForm(driver, "laPaca@gmail.com", "123456");
-//		//Comprobamos que accedemos a la página de listar amigos
-//		PO_View.checkElement(driver, "id", "widget-friendsList");
-//		try {
-//			Thread.sleep(1000); //Para darle tiempo a recargar la pagina
-//		} catch (InterruptedException e) {
-//			e.printStackTrace();
-//		}
-//		//Comprobar tamaño de la tabla para ver las amistades
-//		List<WebElement> elements = SeleniumUtils.EsperaCargaPagina(driver, "free", "//tbody/tr",
-//					PO_View.getTimeout());
-//		assertTrue(elements.size() > 0);
-//		//Buscamos el enlace al chat
-//		elements = SeleniumUtils.EsperaCargaPagina(driver, "free", "//a[contains(@onclick,'chat')]",
-//				PO_View.getTimeout());
-//		assertTrue(elements.size() > 0);
-//		//Presionamos el enlace
-//		elements.get(0).click();
-//		//Comprobamos que estamos en la página correcta
-//		PO_View.checkElement(driver, "id", "widget-chat");
-//		//Guardamos el numero de mensajes
-//		elements = SeleniumUtils.EsperaCargaPagina(driver, "free", "//li",
-//				PO_View.getTimeout());
-//		assertTrue(elements.size() > 0);
-//		int tamaño1 = elements.size();
-//		// Introducimos los nuevos mensajes
-//		WebElement mensaje = driver.findElement(By.id("input-chat"));
-//		By boton = By.id("btn-chat");
-//		for (int i=0; i<3; i++) {
-//			mensaje.click();
-//			mensaje.clear();
-//			mensaje.sendKeys("Prueba 19-"+i);
-//			//Pulsar el boton de Alta.
-//			driver.findElement(boton).click();
-//		}
-//	}
-//	
-//	/**
-//	 * Inicio de sesión válido y acceso a listado de amistades
-//	 */
-//	@Test
-//	public void P20_CListaMenNoLeidoVal() {
-//		// Vamos al formulario de incio de sesion
-//		driver.navigate().to("http://localhost:8081/cliente.html");
-//		//Comprobamos que estamos en la página correcta
-//		PO_View.checkElement(driver, "id", "widget-login");
-//		
-//		//Rellenamos el formulario: Usuario no existe
-//		PO_LogInView.fillForm(driver, "laPili@gmail.com", "123456");
-//		//Comprobamos que accedemos a la página de listar amigos
-//		PO_View.checkElement(driver, "id", "widget-friendsList");
-//		//Buscamos que halla al menos una linea con tres mensajes nuevos
-//		List<WebElement> elements = SeleniumUtils.EsperaCargaPagina(driver, "text", "0",
-//					PO_View.getTimeout());
-//		assertTrue(elements.size() > 0);
-//		
-//	}
+	/**
+	 * Identificarse en la aplicación y enviar tres mensajes a un amigo, 
+	 * validar que los mensajes enviados aparecen en el chat. Identificarse 
+	 * después con el usuario que recibido el mensaje y validar que el número 
+	 * de mensajes sin leer aparece en la propia lista de amigos.
+	 */
+	@Test
+	public void P19_CListaMenNoLeidoVal() {
+		PO_View.setTimeout(10); //Aumentamos el tiempo de espera tolerable
+		// Vamos al formulario de incio de sesion
+		driver.navigate().to("http://localhost:8081/cliente.html");
+		//Comprobamos que estamos en la página correcta
+		PO_View.checkElement(driver, "id", "widget-login");
+		
+		//Rellenamos el formulario: Usuario no existe
+		PO_LogInView.fillForm(driver, "laPaca@gmail.com", "123456");
+		//Comprobamos que accedemos a la página de listar amigos
+		PO_View.checkElement(driver, "id", "widget-friendsList");
+		try {
+			Thread.sleep(1000); //Para darle tiempo a recargar la pagina
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		//Comprobar tamaño de la tabla para ver las amistades
+		List<WebElement> elements = SeleniumUtils.EsperaCargaPagina(driver, "free", "//tbody/tr",
+					PO_View.getTimeout());
+		assertTrue(elements.size() > 0);
+		//Buscamos el enlace al chat
+		elements = SeleniumUtils.EsperaCargaPagina(driver, "free", "//a[contains(@onclick,'chat')]",
+				PO_View.getTimeout());
+		assertTrue(elements.size() > 0);
+		//Presionamos el enlace
+		elements.get(0).click();
+		//Comprobamos que estamos en la página correcta
+		PO_View.checkElement(driver, "id", "widget-chat");
+		//Guardamos el numero de mensajes
+		elements = SeleniumUtils.EsperaCargaPagina(driver, "free", "//li",
+				PO_View.getTimeout());
+		assertTrue(elements.size() > 0);
+		int tamaño1 = elements.size();
+		// Introducimos los nuevos mensajes
+		WebElement mensaje = driver.findElement(By.id("input-chat"));
+		By boton = By.id("btn-chat");
+		for (int i=0; i<3; i++) {
+			mensaje.click();
+			mensaje.clear();
+			mensaje.sendKeys("Test 19-"+i);
+			//Pulsar el boton de Alta.
+			driver.findElement(boton).click();
+		}
+		try {
+			Thread.sleep(5000); //Para darle tiempo a recargar la pagina
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		//Comprobamos que el numero de mensajes ha incrementado en 3
+		elements = SeleniumUtils.EsperaCargaPagina(driver, "free", "//li",
+				PO_View.getTimeout());
+		assertTrue(elements.size()==tamaño1+3);
+	}
+	
+	/**
+	 * Inicio de sesión válido y acceso a listado de amistades
+	 */
+	@Test
+	public void P20_CListaMenNoLeidoVal() {
+		// Vamos al formulario de incio de sesion
+		driver.navigate().to("http://localhost:8081/cliente.html");
+		//Comprobamos que estamos en la página correcta
+		PO_View.checkElement(driver, "id", "widget-login");
+		
+		//Rellenamos el formulario: Usuario no existe
+		PO_LogInView.fillForm(driver, "laPili@gmail.com", "123456");
+		//Comprobamos que accedemos a la página de listar amigos
+		PO_View.checkElement(driver, "id", "widget-friendsList");
+		try {
+			Thread.sleep(4000); //Para darle tiempo a recargar la pagina
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		//Buscamos que halla al menos una linea con tres mensajes nuevos
+		List<WebElement> elements = SeleniumUtils.EsperaCargaPagina(driver, "text", "3",
+					PO_View.getTimeout());
+		assertTrue(elements.size() > 0);
+		
+	}
 	
 }
